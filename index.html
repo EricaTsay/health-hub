@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>健康智慧中樞｜AI 助理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F0F4F8;
+  --surface:#fff;
+  --surface2:#F7F9FB;
+  --border:rgba(0,0,0,0.08);
+  --border-md:rgba(0,0,0,0.14);
+  --text:#1A2233;
+  --text2:#5A6A85;
+  --text3:#9AAABF;
+  --green:#0E9F6E;
+  --green-bg:#E8F8F2;
+  --green-dark:#076E4C;
+  --blue-bg:#EBF2FF;
+  --purple-bg:#F3EEFF;
+  --font:'Inter',system-ui,sans-serif;
+  --r:14px;--r-sm:8px;
+  --sidebar:240px;
+  --topbar:56px;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── TOPBAR ── */
+.topbar{
+  height:var(--topbar);background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;padding:0 1.25rem;flex-shrink:0;z-index:20;
+}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo i{font-size:19px;color:#fff}
+.topbar-name{font-size:15px;font-weight:600}
+.topbar-sub{font-size:12px;color:var(--text3)}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.status-pill{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green);background:var(--green-bg);border-radius:20px;padding:4px 10px}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.icon-btn{border:1px solid var(--border-md);border-radius:var(--r-sm);padding:5px 10px;font-size:12px;font-family:var(--font);cursor:pointer;background:var(--surface);color:var(--text2);display:flex;align-items:center;gap:5px}
+.icon-btn:hover{background:var(--surface2)}
+
+/* ── BODY LAYOUT ── */
+.body-wrap{display:flex;flex:1;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;background:var(--surface);
+  border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;
+}
+.sidebar-header{
+  padding:14px 14px 10px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.sidebar-title{font-size:12px;font-weight:600;color:var(--text2);letter-spacing:.5px;text-transform:uppercase}
+.refresh-btn{width:26px;height:26px;border:none;background:transparent;cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--text3)}
+.refresh-btn:hover{background:var(--surface2);color:var(--text)}
+.refresh-btn i{font-size:15px}
+.sidebar-scroll{flex:1;overflow-y:auto;padding:8px 0}
+.sidebar-scroll::-webkit-scrollbar{width:3px}
+.sidebar-scroll::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:3px}
+
+.topic-item{
+  padding:10px 14px;cursor:pointer;border-left:3px solid transparent;
+  transition:all .12s;position:relative;
+}
+.topic-item:hover{background:var(--surface2);border-left-color:var(--green)}
+.topic-item.active{background:var(--green-bg);border-left-color:var(--green)}
+.topic-tag{
+  font-size:10px;font-weight:600;letter-spacing:.3px;
+  padding:2px 6px;border-radius:4px;display:inline-block;margin-bottom:5px;
+}
+.tag-hot{background:#FFF0E6;color:#C44B0A}
+.tag-trend{background:#E8F8F2;color:#076E4C}
+.tag-risk{background:#FEECEC;color:#A52828}
+.tag-policy{background:var(--blue-bg);color:#1A5DD4}
+.topic-name{font-size:13px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:3px}
+.topic-meta{font-size:11px;color:var(--text3)}
+
+.sidebar-loading{padding:20px 14px;display:flex;flex-direction:column;gap:10px}
+.skel{height:56px;background:var(--surface2);border-radius:var(--r-sm);animation:pulse 1.4s ease-in-out infinite}
+.skel:nth-child(2){opacity:.7}.skel:nth-child(3){opacity:.5}.skel:nth-child(4){opacity:.3}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+
+/* ── CHAT VIEW ── */
+.chat-view{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.chat-scroll{flex:1;overflow-y:auto;padding:1.25rem 1.25rem .5rem;display:flex;flex-direction:column;gap:12px}
+.chat-scroll::-webkit-scrollbar{width:4px}
+.chat-scroll::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:4px}
+
+.msg-row{display:flex;gap:8px;align-items:flex-end;width:100%}
+.msg-row.user{flex-direction:row-reverse}
+.avatar{width:28px;height:28px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:2px}
+.avatar i{font-size:15px;color:#fff}
+.bubble{padding:11px 14px;border-radius:var(--r);font-size:14px;line-height:1.75;max-width:480px}
+.bubble.bot{background:var(--surface);border:1px solid var(--border);border-bottom-left-radius:4px}
+.bubble.user{background:#1A2233;color:#fff;border-bottom-right-radius:4px;max-width:360px}
+.bubble pre{white-space:pre-wrap;font-family:var(--font);font-size:13.5px;margin-top:4px}
+
+.stage-label{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:20px;margin-bottom:6px;font-weight:500}
+.sl-collect{background:var(--green-bg);color:var(--green-dark)}
+.sl-translate{background:var(--blue-bg);color:#1A5DD4}
+.sl-review{background:var(--purple-bg);color:#6B35C9}
+
+.chips-row{display:flex;flex-wrap:wrap;gap:7px;padding-left:36px}
+.chip{padding:7px 14px;border:1px solid var(--border-md);border-radius:20px;font-size:13px;cursor:pointer;background:var(--surface);color:var(--text);font-family:var(--font);transition:all .12s}
+.chip:hover{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.chips-row.disabled .chip{pointer-events:none;opacity:.4}
+
+.typing-row{display:flex;gap:8px;align-items:flex-end}
+.typing-bubble{padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);border-bottom-left-radius:4px;display:flex;gap:4px}
+.typing-bubble span{width:7px;height:7px;border-radius:50%;background:var(--text3);animation:blink 1.2s infinite}
+.typing-bubble span:nth-child(2){animation-delay:.2s}
+.typing-bubble span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{opacity:.2}30%{opacity:1}}
+
+.input-bar{background:var(--surface);border-top:1px solid var(--border);padding:12px 1.25rem;display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
+.input-wrap{flex:1;border:1px solid var(--border-md);border-radius:var(--r);background:var(--surface2);display:flex;align-items:flex-end}
+.input-wrap:focus-within{border-color:var(--green)}
+#user-input{flex:1;font-family:var(--font);font-size:14px;padding:10px 14px;border:none;outline:none;background:transparent;color:var(--text);resize:none;max-height:120px;line-height:1.5}
+.send-btn{width:36px;height:36px;margin:4px;border-radius:9px;background:var(--green);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .12s}
+.send-btn:hover{background:var(--green-dark)}
+.send-btn:disabled{background:var(--border-md);cursor:not-allowed}
+.send-btn i{font-size:17px;color:#fff}
+
+/* ── TOPIC DETAIL VIEW ── */
+.detail-view{
+  position:absolute;inset:0;background:var(--bg);
+  display:none;flex-direction:column;overflow:hidden;
+  animation:slideIn .2s ease;
+}
+.detail-view.open{display:flex}
+@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:none;opacity:1}}
+
+.detail-topbar{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:0 1.25rem;height:52px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.back-btn{border:none;background:transparent;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:var(--font);font-size:13px;color:var(--text2);padding:6px 0;border-radius:6px}
+.back-btn:hover{color:var(--text)}
+.back-btn i{font-size:16px}
+.detail-topic-name{font-size:15px;font-weight:600;color:var(--text)}
+
+.detail-scroll{flex:1;overflow-y:auto;padding:1.5rem 1.5rem 2rem}
+.detail-scroll::-webkit-scrollbar{width:4px}
+.detail-scroll::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:4px}
+
+.detail-hero{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:1.25rem 1.5rem;margin-bottom:1.25rem;
+  display:flex;align-items:flex-start;gap:14px;
+}
+.detail-icon{width:44px;height:44px;border-radius:10px;background:var(--green-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.detail-icon i{font-size:22px;color:var(--green)}
+.detail-hero-name{font-size:18px;font-weight:600;margin-bottom:4px}
+.detail-hero-sub{font-size:13px;color:var(--text2);line-height:1.6}
+
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:580px){.detail-grid{grid-template-columns:1fr}}
+
+.detail-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem}
+.detail-card.full{grid-column:1/-1}
+.dc-title{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;display:flex;align-items:center;gap:6px;letter-spacing:.3px;text-transform:uppercase}
+.dc-title i{font-size:14px}
+.dc-body{font-size:14px;color:var(--text);line-height:1.75;white-space:pre-wrap}
+.dc-body.loading{color:var(--text3);font-size:13px;display:flex;align-items:center;gap:8px}
+
+.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.25rem}
+.action-btn{
+  padding:9px 16px;border-radius:var(--r-sm);font-family:var(--font);font-size:13px;
+  font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;border:none;
+  transition:all .12s;
+}
+.action-btn.primary{background:var(--green);color:#fff}
+.action-btn.primary:hover{background:var(--green-dark)}
+.action-btn.secondary{background:var(--surface);color:var(--text);border:1px solid var(--border-md)}
+.action-btn.secondary:hover{background:var(--surface2)}
+.action-btn i{font-size:15px}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px)}
+.modal-overlay.hidden{display:none}
+.modal{background:var(--surface);border-radius:16px;padding:1.75rem;width:90%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,0.18)}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:1.25rem;line-height:1.6}
+.modal input{width:100%;font-family:var(--font);font-size:14px;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--r-sm);outline:none;color:var(--text);margin-bottom:1rem}
+.modal input:focus{border-color:var(--green)}
+.modal-btn{width:100%;padding:10px;background:var(--green);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--font);font-size:14px;font-weight:500;cursor:pointer}
+.modal-btn:hover{background:var(--green-dark)}
+
+.spinner-sm{display:inline-block;width:13px;height:13px;border:2px solid var(--border-md);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title">啟用 AI 功能</div>
+    <div class="modal-sub">請輸入 Anthropic API Key 以啟動平台。金鑰僅用於本頁面的 AI 呼叫，不會儲存至任何伺服器。</div>
+    <input type="password" id="api-key-input" placeholder="sk-ant-…" autocomplete="off"/>
+    <button class="modal-btn" onclick="saveKey()">確認啟用</button>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo"><i class="ti ti-brain"></i></div>
+  <div class="topbar-name">健康智慧中樞</div>
+  <div class="topbar-sub">收集・轉譯・審閱</div>
+  <div class="topbar-right">
+    <div class="status-pill" id="status-pill" style="display:none"><span class="status-dot"></span>AI 已啟用</div>
+    <button class="icon-btn" onclick="showModal()"><i class="ti ti-key" style="font-size:13px"></i>API Key</button>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-title">熱門健康議題</span>
+      <button class="refresh-btn" onclick="loadTopics()" title="重新載入"><i class="ti ti-refresh"></i></button>
+    </div>
+    <div class="sidebar-scroll" id="sidebar-list">
+      <div class="sidebar-loading" id="sidebar-loading">
+        <div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- CHAT VIEW -->
+    <div class="chat-view" id="chat-view">
+      <div class="chat-scroll" id="chat"></div>
+      <div class="input-bar">
+        <div class="input-wrap">
+          <textarea id="user-input" rows="1" placeholder="輸入訊息…" onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
+          <button class="send-btn" id="send-btn" onclick="sendMessage()"><i class="ti ti-arrow-up"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL VIEW -->
+    <div class="detail-view" id="detail-view">
+      <div class="detail-topbar">
+        <button class="back-btn" onclick="closeDetail()"><i class="ti ti-arrow-left"></i>返回聊天室</button>
+        <div style="width:1px;height:20px;background:var(--border);margin:0 4px"></div>
+        <div class="detail-topic-name" id="detail-title"></div>
+      </div>
+      <div class="detail-scroll" id="detail-scroll">
+        <!-- 動態填入 -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let API_KEY = '';
+let stage = 'init';
+let collectedTopic = '';
+let translatedContent = '';
+let currentDetailTopic = null;
+
+/* ── KEY ── */
+function showModal(){ document.getElementById('modal').classList.remove('hidden') }
+function saveKey(){
+  const v = document.getElementById('api-key-input').value.trim();
+  if(!v.startsWith('sk-')){ alert('請輸入正確的 API Key（以 sk- 開頭）'); return; }
+  API_KEY = v;
+  document.getElementById('modal').classList.add('hidden');
+  document.getElementById('status-pill').style.display='flex';
+  loadTopics();
+}
+document.getElementById('modal').addEventListener('click', e => {
+  if(e.target===document.getElementById('modal')) document.getElementById('modal').classList.add('hidden');
+});
+
+/* ── UTILS ── */
+function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+function autoGrow(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px' }
+function handleKey(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMessage(); } }
+
+async function ai(system, msg){
+  const res = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01'},
+    body: JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1200,system,messages:[{role:'user',content:msg}]})
+  });
+  const data = await res.json();
+  if(data.error) throw new Error(data.error.message);
+  return data.content?.map(b=>b.text||'').join('')||'';
+}
+
+/* ═══════════════════════════════
+   SIDEBAR：熱門議題
+═══════════════════════════════ */
+const TAG_MAP = {hot:'tag-hot',trend:'tag-trend',risk:'tag-risk',policy:'tag-policy'};
+const TAG_LABEL = {hot:'🔥 熱議',trend:'📈 趨勢',risk:'⚠ 風險',policy:'📋 政策'};
+
+async function loadTopics(){
+  if(!API_KEY){ return; }
+  const list = document.getElementById('sidebar-list');
+  list.innerHTML = '<div class="sidebar-loading"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>';
+  try{
+    const raw = await ai(
+      `你是台灣健康促進與保險產業的議題分析師。請輸出 JSON，不要有任何說明或 markdown，直接從 [ 開始。`,
+      `請列出目前台灣最值得保險公司關注的 7 個健康議題。
+每個議題輸出以下 JSON 格式（陣列）：
+[
+  {"name":"議題名稱（10字內）","summary":"一句話摘要（20字內）","tag":"hot或trend或risk或policy其中一個"}
+]`
+    );
+    let topics;
+    try{
+      const cleaned = raw.replace(/```json|```/g,'').trim();
+      topics = JSON.parse(cleaned);
+    }catch{
+      topics = [
+        {name:'代謝症候群',summary:'台灣盛行率持續上升，年輕化趨勢明顯',tag:'hot'},
+        {name:'失智症預防',summary:'高齡化社會關鍵健康議題',tag:'trend'},
+        {name:'心血管風險管理',summary:'國人十大死因長期排名前段',tag:'risk'},
+        {name:'長照 2.0 接軌',summary:'政策調整影響保險商品設計',tag:'policy'},
+        {name:'癌症篩檢覆蓋率',summary:'四癌篩檢推廣效益持續擴大',tag:'trend'},
+        {name:'心理健康意識',summary:'職場與青年族群需求快速成長',tag:'hot'},
+        {name:'肌少症',summary:'銀髮族功能衰退核心風險因子',tag:'risk'}
+      ];
+    }
+    renderTopics(topics);
+  }catch(e){
+    list.innerHTML = `<div style="padding:16px 14px;font-size:13px;color:var(--text3)">載入失敗<br/><span style="font-size:12px">${esc(e.message)}</span></div>`;
+  }
+}
+
+function renderTopics(topics){
+  const list = document.getElementById('sidebar-list');
+  list.innerHTML='';
+  topics.forEach((t,i)=>{
+    const item = document.createElement('div');
+    item.className='topic-item';
+    item.dataset.idx = i;
+    item.innerHTML=`
+      <div class="topic-tag ${TAG_MAP[t.tag]||'tag-trend'}">${TAG_LABEL[t.tag]||'趨勢'}</div>
+      <div class="topic-name">${esc(t.name)}</div>
+      <div class="topic-meta">${esc(t.summary)}</div>
+    `;
+    item.onclick = ()=> openDetail(t, item);
+    list.appendChild(item);
+  });
+}
+
+/* ═══════════════════════════════
+   DETAIL PAGE
+═══════════════════════════════ */
+const ICON_MAP = {hot:'ti-flame',trend:'ti-trending-up',risk:'ti-alert-triangle',policy:'ti-file-description'};
+
+async function openDetail(topic, itemEl){
+  // 更新 sidebar active
+  document.querySelectorAll('.topic-item').forEach(el=>el.classList.remove('active'));
+  itemEl.classList.add('active');
+
+  currentDetailTopic = topic;
+  document.getElementById('detail-title').textContent = topic.name;
+
+  // 顯示 detail view
+  const dv = document.getElementById('detail-view');
+  dv.classList.add('open');
+
+  const scroll = document.getElementById('detail-scroll');
+  const icon = ICON_MAP[topic.tag]||'ti-heart';
+  scroll.innerHTML = `
+    <div class="detail-hero">
+      <div class="detail-icon"><i class="ti ${icon}"></i></div>
+      <div>
+        <div class="detail-hero-name">${esc(topic.name)}</div>
+        <div class="detail-hero-sub">${esc(topic.summary)}</div>
+      </div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-card">
+        <div class="dc-title"><i class="ti ti-chart-line"></i>市場趨勢洞察</div>
+        <div class="dc-body loading" id="dc-trend"><span class="spinner-sm"></span>分析中…</div>
+      </div>
+      <div class="detail-card">
+        <div class="dc-title"><i class="ti ti-target"></i>業務機會</div>
+        <div class="dc-body loading" id="dc-oppo"><span class="spinner-sm"></span>分析中…</div>
+      </div>
+      <div class="detail-card full">
+        <div class="dc-title"><i class="ti ti-users"></i>受眾洞察</div>
+        <div class="dc-body loading" id="dc-audience"><span class="spinner-sm"></span>分析中…</div>
+      </div>
+      <div class="detail-card full">
+        <div class="dc-title"><i class="ti ti-bulb"></i>傳播策略建議</div>
+        <div class="dc-body loading" id="dc-strategy"><span class="spinner-sm"></span>分析中…</div>
+      </div>
+    </div>
+    <div class="detail-actions">
+      <button class="action-btn primary" onclick="bringToChat()"><i class="ti ti-message"></i>帶入聊天室深入討論</button>
+      <button class="action-btn secondary" onclick="translateInChat()"><i class="ti ti-language"></i>直接轉譯此議題</button>
+    </div>
+  `;
+
+  const sys = `你是台灣保險公司的健康經營策略顧問。繁體中文，不使用 markdown 符號，純文字，每段3-4句，語氣專業精簡。`;
+  const n = topic.name;
+
+  Promise.all([
+    ai(sys, `針對台灣「${n}」議題，分析目前市場趨勢：包含盛行率、消費者關注走向、近期重要發展。分3點列述。`)
+      .then(r=>{ const el=document.getElementById('dc-trend'); if(el){ el.classList.remove('loading'); el.textContent=r; } }),
+    ai(sys, `針對「${n}」，列出2-3個對保險公司的新興業務機會，包含商品設計、服務加值或客群經營面向。`)
+      .then(r=>{ const el=document.getElementById('dc-oppo'); if(el){ el.classList.remove('loading'); el.textContent=r; } }),
+    ai(sys, `針對「${n}」，分析保險公司應關注的主要受眾族群（年齡、職業、生命週期），以及各族群的核心需求與痛點。`)
+      .then(r=>{ const el=document.getElementById('dc-audience'); if(el){ el.classList.remove('loading'); el.textContent=r; } }),
+    ai(sys, `針對「${n}」，提出健康傳播策略建議：適合管道、傳播時機、主要訴求方向，格式為「建議一／建議二／建議三」。`)
+      .then(r=>{ const el=document.getElementById('dc-strategy'); if(el){ el.classList.remove('loading'); el.textContent=r; } }),
+  ]).catch(e=>console.error(e));
+}
+
+function closeDetail(){
+  document.getElementById('detail-view').classList.remove('open');
+  document.querySelectorAll('.topic-item').forEach(el=>el.classList.remove('active'));
+}
+
+function bringToChat(){
+  if(!currentDetailTopic) return;
+  closeDetail();
+  collectedTopic = currentDetailTopic.name;
+  stage = 'await_scene';
+  botMsg(`好的，我們來深入討論「<b>${esc(currentDetailTopic.name)}</b>」。<br/>你想針對這個議題做什麼？`);
+  chips(['轉譯成業務內容','審閱相關文案','進一步分析趨勢'], opt=>{
+    userMsg(opt);
+    if(opt.includes('轉譯')){ stage='await_scene'; askScene(); }
+    else if(opt.includes('審閱')){ stage='await_review_content'; botMsg('請把要審閱的內容貼進來。'); }
+    else { stage='busy'; doCollect(currentDetailTopic.name); }
+  });
+}
+
+function translateInChat(){
+  if(!currentDetailTopic) return;
+  closeDetail();
+  collectedTopic = currentDetailTopic.name;
+  stage='await_scene';
+  askScene();
+}
+
+/* ═══════════════════════════════
+   CHAT
+═══════════════════════════════ */
+const chat = document.getElementById('chat');
+function scrollBottom(){ chat.scrollTop = chat.scrollHeight }
+
+function botMsg(html, labelType){
+  const row = document.createElement('div');
+  row.className='msg-row bot';
+  let label='';
+  if(labelType==='collect') label=`<div class="stage-label sl-collect"><i class="ti ti-radar" style="font-size:11px"></i>收集模式</div><br/>`;
+  if(labelType==='translate') label=`<div class="stage-label sl-translate"><i class="ti ti-language" style="font-size:11px"></i>轉譯模式</div><br/>`;
+  if(labelType==='review') label=`<div class="stage-label sl-review"><i class="ti ti-shield-check" style="font-size:11px"></i>審閱模式</div><br/>`;
+  row.innerHTML=`<div class="avatar"><i class="ti ti-brain"></i></div><div class="bubble bot">${label}${html}</div>`;
+  chat.appendChild(row); scrollBottom();
+}
+function userMsg(text){
+  const row=document.createElement('div');
+  row.className='msg-row user';
+  row.innerHTML=`<div class="bubble user">${esc(text)}</div>`;
+  chat.appendChild(row); scrollBottom();
+}
+function chips(options, cb){
+  const wrap=document.createElement('div');
+  wrap.className='chips-row';
+  options.forEach(opt=>{
+    const btn=document.createElement('button');
+    btn.className='chip'; btn.textContent=opt;
+    btn.onclick=()=>{
+      btn.style.borderColor='var(--green)'; btn.style.color='var(--green)'; btn.style.background='var(--green-bg)';
+      wrap.classList.add('disabled'); cb(opt);
+    };
+    wrap.appendChild(btn);
+  });
+  chat.appendChild(wrap); scrollBottom();
+}
+function showTyping(){
+  const row=document.createElement('div');
+  row.className='typing-row'; row.id='typing-ind';
+  row.innerHTML=`<div class="avatar"><i class="ti ti-brain"></i></div><div class="typing-bubble"><span></span><span></span><span></span></div>`;
+  chat.appendChild(row); scrollBottom();
+}
+function hideTyping(){ const t=document.getElementById('typing-ind'); if(t) t.remove(); }
+
+async function sendMessage(){
+  if(!API_KEY){ showModal(); return; }
+  const input=document.getElementById('user-input');
+  const text=input.value.trim(); if(!text) return;
+  input.value=''; input.style.height='auto';
+  document.getElementById('send-btn').disabled=true;
+  userMsg(text);
+  await route(text);
+  document.getElementById('send-btn').disabled=false;
+}
+
+async function route(text){
+  if(stage==='await_topic_collect'){ collectedTopic=text; stage='busy'; await doCollect(text); }
+  else if(stage==='await_topic_translate'){ collectedTopic=text; stage='await_scene'; askScene(); }
+  else if(stage==='await_review_content'){ translatedContent=text; stage='busy'; await doReview(text); }
+  else {
+    showTyping();
+    try{
+      const intent = await ai(
+        `判斷使用者意圖，只回傳一個英文詞：collect、translate、review、other。不輸出其他文字。`, text
+      );
+      hideTyping();
+      const i=intent.trim().toLowerCase();
+      if(i==='collect'){ stage='await_topic_collect'; botMsg('請告訴我要分析哪個健康議題？<br/><span style="color:var(--text2);font-size:13px">例：代謝症候群、失智預防、心血管風險…</span>'); }
+      else if(i==='translate'){ stage='await_topic_translate'; botMsg('要轉譯哪個健康主題呢？<br/><span style="color:var(--text2);font-size:13px">例：高血壓衛教、糖尿病預防、癌症篩檢…</span>'); }
+      else if(i==='review'){ stage='await_review_content'; botMsg('請把要審閱的內容直接貼進來，我會從四個面向幫你預審。'); }
+      else {
+        const reply = await ai(
+          `你是健康智慧中樞平台的 AI 助理，具備收集、轉譯、審閱三大功能。繁體中文，友善簡短回應，不超過80字。`, text
+        );
+        botMsg(reply.replace(/\n/g,'<br/>'));
+      }
+    }catch(e){ hideTyping(); botMsg('⚠ 連線問題：'+esc(e.message)); }
+  }
+}
+
+function askScene(){
+  botMsg('要轉譯成哪種格式？');
+  chips(['業務員話術','保戶 LINE 文案','內部簡報重點','常見問題 Q&A'], opt=>{
+    userMsg(opt); stage='busy'; doTranslate(opt);
+  });
+}
+
+async function doCollect(topic){
+  showTyping();
+  try{
+    const result = await ai(
+      `你是台灣保險公司健康經營策略顧問。繁體中文，不使用 markdown 符號，純文字，語氣專業精簡。`,
+      `針對「${topic}」，請提供：\n1. 趨勢洞察（台灣市場現況，2-3點）\n2. 新興業務機會（對保險公司的意義，2點）\n3. 傳播策略建議（管道與訴求，2-3點）\n每段用數字標示，段落間空一行。`
+    );
+    hideTyping();
+    collectedTopic=topic; stage='collect_done';
+    botMsg(`議題分析完成。<br/><br/><pre>${esc(result)}</pre><br/>接下來要轉譯成業務內容嗎？`,'collect');
+    chips(['是，幫我轉譯','換一個議題','先這樣，謝謝'], opt=>{
+      userMsg(opt);
+      if(opt.includes('轉譯')){ stage='await_scene'; askScene(); }
+      else if(opt.includes('換')){ stage='await_topic_collect'; botMsg('請告訴我新的議題。'); }
+      else { stage='idle'; botMsg('好的，需要時隨時找我。'); }
+    });
+  }catch(e){ hideTyping(); botMsg('⚠ 錯誤：'+esc(e.message)); stage='await_topic_collect'; }
+}
+
+async function doTranslate(scene){
+  const labels={'業務員話術':'業務員與客戶溝通，語氣專業親切','保戶 LINE 文案':'LINE推播，口語化、150字以內','內部簡報重點':'條列式，3-5個要點','常見問題 Q&A':'3題問答，適合官網或手冊'};
+  showTyping();
+  try{
+    const result = await ai(
+      `你是台灣保險公司健康知識轉譯專家。繁體中文，不使用 markdown 符號，純文字輸出。`,
+      `議題：${collectedTopic||'健康促進'}\n應用場景：${labels[scene]||scene}\n請依照場景格式產出完整的健康知識轉譯內容。`
+    );
+    hideTyping(); translatedContent=result; stage='translate_done';
+    botMsg(`轉譯完成。<br/><br/><pre>${esc(result)}</pre><br/>要送去 AI 預審嗎？`,'translate');
+    chips(['是，執行 AI 預審','換一個場景','這樣就好'], opt=>{
+      userMsg(opt);
+      if(opt.includes('預審')){ stage='busy'; doReview(translatedContent); }
+      else if(opt.includes('換')){ stage='await_scene'; askScene(); }
+      else { stage='idle'; botMsg('好的，這份內容隨時可以回來審閱。'); }
+    });
+  }catch(e){ hideTyping(); botMsg('⚠ 錯誤：'+esc(e.message)); stage='await_scene'; }
+}
+
+async function doReview(content){
+  showTyping();
+  try{
+    const [checks,suggest] = await Promise.all([
+      ai(`你是台灣保險公司健康內容治理審閱專家。繁體中文，純文字，不使用 markdown 符號。`,
+        `請對以下內容進行四維度風險評估，每行格式：「面向：等級 — 說明」\n面向：醫療正確性、保險法遵合規、品牌語調一致性、受眾適切性\n等級用：通過／低風險／中風險／高風險\n\n待審內容：\n${content}`),
+      ai(`你是台灣保險公司健康內容治理審閱專家。繁體中文，純文字，不使用 markdown 符號。`,
+        `請對以下內容提出2-3點修正建議，格式：「問題 → 修正方向」\n\n待審內容：\n${content}`)
+    ]);
+    hideTyping(); stage='review_done';
+    botMsg(
+      `預審完成。<br/><br/><b>四維度風險評估</b><br/><pre>${esc(checks)}</pre><br/><b>修正建議</b><br/><pre>${esc(suggest)}</pre><br/><span style="font-size:12px;color:var(--text2)">Audit Trail 已記錄本次審查。</span>`,
+      'review'
+    );
+    chips(['修正後重新送審','完成，謝謝'], opt=>{
+      userMsg(opt);
+      if(opt.includes('重新')){ stage='await_review_content'; botMsg('請把修正後的內容貼進來。'); }
+      else { stage='idle'; botMsg('好的，審閱紀錄已存檔。有需要再回來找我。'); }
+    });
+  }catch(e){ hideTyping(); botMsg('⚠ 錯誤：'+esc(e.message)); stage='await_review_content'; }
+}
+
+/* ── INIT ── */
+(function(){
+  botMsg('您好，我是健康智慧中樞 AI 助理。<br/><br/>今天想處理什麼事？');
+  chips(['分析健康議題趨勢','轉譯健康內容給特定受眾','審閱待發布的健康文案'], opt=>{
+    userMsg(opt);
+    if(opt.includes('分析')){ stage='await_topic_collect'; botMsg('請告訴我要分析哪個健康議題？<br/><span style="color:var(--text2);font-size:13px">例：代謝症候群、失智預防、心血管風險…</span>'); }
+    else if(opt.includes('轉譯')){ stage='await_topic_translate'; botMsg('要轉譯哪個健康主題呢？'); }
+    else { stage='await_review_content'; botMsg('請把要審閱的內容直接貼進來。'); }
+  });
+})();
+</script>
+</body>
+</html>
