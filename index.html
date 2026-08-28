@@ -102,6 +102,8 @@ body{
 .nav-ico i{font-size:15px}
 .nav-tab:hover{background:var(--surface2);color:var(--text)}
 .nav-tab.active{color:var(--text)}
+.nav-tab[data-view="home"].active{background:var(--teal-bg)}
+.nav-tab[data-view="home"].active .nav-ico{background:var(--teal);color:#fff}
 .nav-tab[data-view="chat"].active{background:var(--green-bg)}
 .nav-tab[data-view="chat"].active .nav-ico{background:var(--green);color:#fff}
 .nav-tab[data-view="collect"].active{background:var(--blue-bg)}
@@ -162,6 +164,7 @@ body{
 .view-topbar[data-color="collect"] .view-icon-badge{background:var(--blue)}
 .view-topbar[data-color="translate"] .view-icon-badge{background:var(--purple)}
 .view-topbar[data-color="review"] .view-icon-badge{background:var(--amber)}
+.view-topbar[data-color="home"] .view-icon-badge{background:var(--brand-grad)}
 .view-icon-badge.sm{width:26px;height:26px;border-radius:8px}
 .view-icon-badge.sm i{font-size:13px}
 .view-title{font-family:var(--font-display);font-size:16px;font-weight:800;display:flex;align-items:center;gap:10px;letter-spacing:-.1px}
@@ -319,6 +322,40 @@ mark.hl{background:linear-gradient(180deg,transparent 15%,#FFEC99 15%,#FFEC99 90
 .action-btn.secondary{background:var(--surface);color:var(--text);border:1px solid var(--border-md)}
 .action-btn.secondary:hover{background:var(--surface2);border-color:var(--green)}
 .action-btn i{font-size:15px}
+
+/* ── HOME VIEW ── */
+.home-greeting{padding:0 0 1.5rem}
+.home-greeting-title{font-family:var(--font-display);font-size:23px;font-weight:800;margin-bottom:6px}
+.home-greeting-sub{font-size:13.5px;color:var(--text2)}
+.home-section{margin-bottom:1.75rem}
+.home-section:last-child{margin-bottom:0}
+.home-section-title{font-size:11.5px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.home-section-title i{font-size:13px}
+
+.home-func-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:760px){.home-func-grid{grid-template-columns:repeat(2,1fr)}}
+.home-func-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.15rem 1.1rem;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-sm);text-align:left;font-family:var(--font)}
+.home-func-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--border-md)}
+.home-func-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:11px}
+.home-func-icon i{font-size:18px;color:#fff}
+.home-func-name{font-size:14px;font-weight:800;margin-bottom:4px;color:var(--text)}
+.home-func-desc{font-size:11.5px;color:var(--text3);line-height:1.5}
+
+.home-alert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.home-alert-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:1rem 1.1rem;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-xs)}
+.home-alert-card:hover{box-shadow:var(--shadow-sm);border-color:var(--red)}
+.home-alert-name{font-size:13.5px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.home-alert-name i{font-size:12px;color:#B91C1C}
+.home-alert-summary{font-size:12px;color:var(--text2);line-height:1.55}
+
+.home-activity-list{display:flex;flex-direction:column;gap:8px}
+.home-activity-item{display:flex;align-items:center;gap:10px;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:11px;font-size:12.5px;cursor:pointer;transition:all .15s}
+.home-activity-item:hover{border-color:var(--border-md);box-shadow:var(--shadow-xs)}
+.home-activity-icon{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.home-activity-icon i{font-size:13px;color:#fff}
+.home-activity-label{flex:1;color:var(--text);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.home-activity-time{color:var(--text3);flex-shrink:0}
+.home-empty{font-size:12.5px;color:var(--text3);padding:.75rem 0}
 
 /* ── MODAL ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(10,15,25,0.45);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px)}
@@ -581,7 +618,8 @@ mark.hl{background:linear-gradient(180deg,transparent 15%,#FFEC99 15%,#FFEC99 90
   <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="nav-tabs">
-      <button class="nav-tab active" data-view="chat" onclick="switchView('chat')"><span class="nav-ico"><i class="ti ti-message-circle"></i></span>AI 對話</button>
+      <button class="nav-tab active" data-view="home" onclick="switchView('home')"><span class="nav-ico"><i class="ti ti-home"></i></span>首頁</button>
+      <button class="nav-tab" data-view="chat" onclick="switchView('chat')"><span class="nav-ico"><i class="ti ti-message-circle"></i></span>AI 對話</button>
       <button class="nav-tab" data-view="collect" onclick="switchView('collect')"><span class="nav-ico"><i class="ti ti-radar"></i></span>收集</button>
       <button class="nav-tab" data-view="translate" onclick="switchView('translate')"><span class="nav-ico"><i class="ti ti-language"></i></span>轉譯</button>
       <button class="nav-tab" data-view="review" onclick="switchView('review')"><span class="nav-ico"><i class="ti ti-shield-check"></i></span>審閱</button>
@@ -600,8 +638,55 @@ mark.hl{background:linear-gradient(180deg,transparent 15%,#FFEC99 15%,#FFEC99 90
   <!-- MAIN -->
   <div class="main">
 
+    <!-- HOME VIEW -->
+    <div class="view-panel active" id="home-view">
+      <div class="view-topbar" data-color="home">
+        <div class="view-title"><span class="view-icon-badge"><i class="ti ti-home"></i></span>首頁</div>
+        <div class="view-tag">健康智慧中樞</div>
+      </div>
+      <div class="view-scroll">
+        <div class="home-greeting">
+          <div class="home-greeting-title" id="home-greeting-title">早安 👋</div>
+          <div class="home-greeting-sub" id="home-greeting-sub">今天想從哪裡開始？</div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title"><i class="ti ti-apps"></i>快速入口</div>
+          <div class="home-func-grid">
+            <button class="home-func-card" onclick="switchView('collect')">
+              <div class="home-func-icon" style="background:var(--blue)"><i class="ti ti-radar"></i></div>
+              <div class="home-func-name">收集</div>
+              <div class="home-func-desc">掌握健康議題趨勢，洞察經營機會</div>
+            </button>
+            <button class="home-func-card" onclick="switchView('translate')">
+              <div class="home-func-icon" style="background:var(--purple)"><i class="ti ti-language"></i></div>
+              <div class="home-func-name">轉譯</div>
+              <div class="home-func-desc">一鍵產出健康文章與圖卡</div>
+            </button>
+            <button class="home-func-card" onclick="switchView('review')">
+              <div class="home-func-icon" style="background:var(--amber)"><i class="ti ti-shield-check"></i></div>
+              <div class="home-func-name">審閱</div>
+              <div class="home-func-desc">AI 預審把關法遵與正確性</div>
+            </button>
+            <button class="home-func-card" onclick="switchView('chat')">
+              <div class="home-func-icon" style="background:var(--green)"><i class="ti ti-message-circle"></i></div>
+              <div class="home-func-name">AI 對話</div>
+              <div class="home-func-desc">直接提問，或讓 AI 帶你到對應工作檯</div>
+            </button>
+          </div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title"><i class="ti ti-flame"></i>本週高關注議題</div>
+          <div class="home-alert-grid" id="home-alert-grid"></div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title"><i class="ti ti-history"></i>最近使用紀錄</div>
+          <div class="home-activity-list" id="home-activity-list"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- CHAT VIEW -->
-    <div class="view-panel active" id="chat-view">
+    <div class="view-panel" id="chat-view">
       <div class="chat-scroll" id="chat"></div>
       <div class="input-bar">
         <div class="input-wrap">
@@ -701,7 +786,7 @@ let collectedTopic = '';
 let translatedContent = '';
 let lastArticleData = null;
 let lastInfocardData = null;
-let currentView = 'chat';
+let currentView = 'home';
 let reviewDocType = 'DM';
 let reviewAttachments = [];   // {name,size,mediaType,kind:'image'|'pdf',data(base64),dataUrl}
 const REVIEW_FILE_MAX = 15 * 1024 * 1024;
@@ -960,6 +1045,7 @@ function saveKey(){
   document.getElementById('modal').classList.add('hidden');
   document.getElementById('status-pill').style.display='flex';
   loadTopics();
+  renderHome();
 }
 
 function enterDemoMode(){
@@ -972,7 +1058,8 @@ function enterDemoMode(){
   document.getElementById('review-input').value = DEMO_REVIEW_SAMPLE;
   setReviewDocTypeByValue('圖文');
   renderTopics(FALLBACK_TOPICS);
-  botMsg('已進入示範模式。您可以直接在這裡問我健康問題，例如：<br/>「爬樓梯真的傷膝蓋嗎？」<br/>「咖啡一天可以喝幾杯？」<br/>「睡不好怎麼辦？」');
+  renderHome();
+  botMsg('已進入示範模式。您可以直接在這裡問我健康問題，例如：<br/>「健檢報告出現代謝症候群紅字，要緊張嗎？」<br/>「現在新冠疫情又升溫了，還需要打疫苗嗎？」<br/>「睡不好怎麼辦？」');
 }
 
 function demoDelay(ms){ return new Promise(r=>setTimeout(r, ms||650)); }
@@ -2080,6 +2167,81 @@ function switchView(name){
   document.querySelectorAll('.view-panel').forEach(el=>el.classList.remove('active'));
   document.getElementById(name+'-view').classList.add('active');
   document.querySelectorAll('.nav-tab').forEach(el=>el.classList.toggle('active', el.dataset.view===name));
+  if(name==='home') renderHome();
+}
+
+/* ── 首頁：問候語／高關注議題／最近使用紀錄 ── */
+const ACTIVITY_KEY = 'hihub_recent_activity';
+const ACTIVITY_META = {
+  collect:{icon:'ti-radar', color:'var(--blue)', view:'collect'},
+  translate:{icon:'ti-language', color:'var(--purple)', view:'translate'},
+  review:{icon:'ti-shield-check', color:'var(--amber)', view:'review'}
+};
+function logActivity(type, label){
+  try{
+    const log = JSON.parse(localStorage.getItem(ACTIVITY_KEY) || '[]');
+    log.unshift({type, label, ts: Date.now()});
+    localStorage.setItem(ACTIVITY_KEY, JSON.stringify(log.slice(0,5)));
+  }catch(e){ /* localStorage 不可用時靜默略過，不影響主功能 */ }
+}
+function getActivityLog(){
+  try{ return JSON.parse(localStorage.getItem(ACTIVITY_KEY) || '[]'); }catch(e){ return []; }
+}
+function timeAgo(ts){
+  const diffMin = Math.round((Date.now()-ts)/60000);
+  if(diffMin < 1) return '剛剛';
+  if(diffMin < 60) return `${diffMin}分鐘前`;
+  const diffHr = Math.round(diffMin/60);
+  if(diffHr < 24) return `${diffHr}小時前`;
+  return `${Math.round(diffHr/24)}天前`;
+}
+function getGreeting(){
+  const h = new Date().getHours();
+  if(h < 5) return '夜深了 🌙';
+  if(h < 12) return '早安 👋';
+  if(h < 18) return '午安 👋';
+  return '晚安 👋';
+}
+function renderHome(){
+  const titleEl = document.getElementById('home-greeting-title');
+  const subEl = document.getElementById('home-greeting-sub');
+  if(!titleEl) return;
+  titleEl.textContent = getGreeting();
+
+  const highTopics = FALLBACK_TOPICS.filter(t => (DEMO_COLLECT[t.name]||{}).alert_level === 'high');
+  subEl.textContent = highTopics.length
+    ? `目前有 ${highTopics.length} 個高關注議題，建議優先掌握。`
+    : '今天想從哪裡開始？';
+
+  const alertGrid = document.getElementById('home-alert-grid');
+  alertGrid.innerHTML = '';
+  if(highTopics.length){
+    highTopics.forEach(t=>{
+      const card = document.createElement('div');
+      card.className = 'home-alert-card';
+      card.innerHTML = `<div class="home-alert-name"><i class="ti ti-flame"></i>${esc(t.name)}</div><div class="home-alert-summary">${esc(t.summary)}</div>`;
+      card.onclick = ()=>{ switchView('collect'); runCollect(t.name, t); };
+      alertGrid.appendChild(card);
+    });
+  }else{
+    alertGrid.innerHTML = `<div class="home-empty">目前沒有特別緊急的議題，可以到「收集」瀏覽完整清單。</div>`;
+  }
+
+  const activityList = document.getElementById('home-activity-list');
+  const activity = getActivityLog();
+  activityList.innerHTML = '';
+  if(activity.length){
+    activity.forEach(a=>{
+      const meta = ACTIVITY_META[a.type] || ACTIVITY_META.collect;
+      const item = document.createElement('div');
+      item.className = 'home-activity-item';
+      item.innerHTML = `<div class="home-activity-icon" style="background:${meta.color}"><i class="ti ${meta.icon}"></i></div><div class="home-activity-label">${esc(a.label)}</div><div class="home-activity-time">${esc(timeAgo(a.ts))}</div>`;
+      item.onclick = ()=>switchView(meta.view);
+      activityList.appendChild(item);
+    });
+  }else{
+    activityList.innerHTML = `<div class="home-empty">還沒有使用紀錄，開始使用收集、轉譯或審閱後會顯示在這裡。</div>`;
+  }
 }
 
 /* ── 收集 ── */
@@ -2125,6 +2287,7 @@ async function runCollect(topicOverride, topicObj){
     const d = DEMO_COLLECT[topic] || DEMO_COLLECT_DEFAULT(topic);
     fillCollectCards(d);
     renderAlertPill(d);
+    logActivity('collect', `收集：${topic}`);
     return;
   }
 
@@ -2132,6 +2295,7 @@ async function runCollect(topicOverride, topicObj){
     const data = parseAI(await ai(getSysPrompt('collect'), `請分析健康議題：「${topic}」`));
     fillCollectCards(data);
     renderAlertPill(data);
+    logActivity('collect', `收集：${topic}`);
   }catch(e){
     result.innerHTML = `<div class="empty-hint">⚠ ${esc(e.message)}</div>`;
   }
@@ -2799,6 +2963,7 @@ async function runTranslate(type){
     translatedContent = toPlainText(data);
     lastArticleData = data.content_type==='健康文章' ? data : null;
     lastInfocardData = data.content_type==='健康圖卡' ? data : null;
+    logActivity('translate', `轉譯：${topic}（${data.content_type}）`);
     result.innerHTML = data.content_type==='健康圖卡'
       ? renderInfocardResult(data, verified ? '判定標準與統計數據引自衛生福利部國民健康署等官方公告並標明年份，未使用療效保證用語。' : '未使用療效保證用語，資料來源為示範性質，正式產出時將以查證後的真實來源取代。（示範）')
       : renderArticleResult(data, verified ? '未使用療效保證用語，數據與來源已查證自衛生福利部國民健康署等官方公告。' : '未使用療效保證用語，資料來源為示範性質，正式產出時將以查證後的真實來源取代。（示範）');
@@ -2811,6 +2976,7 @@ async function runTranslate(type){
     translatedContent = toPlainText(data);
     lastArticleData = data.content_type==='健康文章' ? data : null;
     lastInfocardData = data.content_type==='健康圖卡' ? data : null;
+    logActivity('translate', `轉譯：${topic}（${data.content_type}）`);
     result.innerHTML = data.content_type==='健康圖卡'
       ? renderInfocardResult(data, data.compliance_note)
       : renderArticleResult(data, data.compliance_note);
@@ -2871,6 +3037,7 @@ function renderReviewResult(data, isDemo){
   lastReviewData = data;
   const result = document.getElementById('review-result');
   const ov = OVERALL_META[data.overall] || OVERALL_META.minor_revision;
+  logActivity('review', `審閱：${ov.label}`);
   const SEV_LABEL = {high:'高',medium:'中',low:'低'};
   const SEV_CLASS = {high:'risk-high',medium:'risk-mid',low:'risk-low'};
 
@@ -3137,22 +3304,22 @@ async function sendMessage(){
 /* ── 示範模式：對話腳本（含多輪來回討論） ── */
 const DEMO_CHAT = [
   {
-    match:/爬樓梯|膝蓋|膝關節/,
-    reply:'這是很常見的迷思！先給結論：<mark class="hl">對膝蓋健康的人來說，爬樓梯不但不傷膝蓋</mark>，還是很好的日常運動。真正的關鍵在於「你的膝蓋現在的狀態」。<br/><br/>1. 為什麼會有這個迷思<br/>爬樓梯時膝關節承受的壓力約是平地行走的3-4倍，下樓梯甚至更高，這個數字聽起來嚇人，也是「爬樓梯傷膝」說法的由來。但壓力大不等於傷害——健康的關節本來就能承受這樣的負荷，適度負重反而能刺激軟骨代謝、強化周邊肌肉。<br/><br/>2. 誰適合把爬樓梯當運動<br/>膝蓋無不適、體重在正常範圍的族群，爬樓梯是便利又有效的心肺與下肢訓練，尤其能鍛鍊大腿前側的股四頭肌——它正是膝關節最重要的天然護具。<br/><br/>3. 誰需要先緩一緩<br/>已有膝蓋疼痛、退化性關節炎、體重明顯過重，或久未運動、肌力不足的族群，膝蓋周邊肌肉還撐不住這個負荷，建議<mark class="hl">先從平地快走、游泳、水中走路等低衝擊運動開始</mark>，把肌力養起來再循序漸進。<br/><br/>行動建議：日常可以<mark class="hl">先觀察「下樓梯」有沒有痠軟無力感</mark>——下樓對膝蓋的考驗比上樓大，這是很實用的自我檢測點。若上下樓梯出現持續疼痛或卡卡的異音，建議諮詢骨科或復健科醫師評估。',
+    match:/代謝症候群|健檢紅字|腰圍|三高/,
+    reply:'先給結論：<mark class="hl">代謝症候群不是一種疾病，而是身體發出的早期警訊</mark>，也是少數能靠生活習慣調整逆轉回來的健康狀態，不需要太緊張，重點是要開始行動。<br/><br/>1. 健檢報告怎麼判讀<br/>代謝症候群看5項指標：腰圍（男性≥90cm、女性≥80cm）、血壓、空腹血糖、高密度膽固醇（HDL）、三酸甘油酯，<mark class="hl">5項中有3項以上超標</mark>，就會被判定為代謝症候群。<br/><br/>2. 為什麼要提高警覺<br/>國健署調查顯示20-64歲民眾代謝症候群盛行率達24.8%，相當於每4人就有1人；一旦罹患，未來發生糖尿病、心血管疾病的風險會明顯提高。<br/><br/>3. 好消息是它可逆轉<br/>不像慢性病一旦確診就很難回頭，代謝症候群透過調整飲食、規律運動、減重，是有機會讓數值回到正常範圍的。<br/><br/>行動建議：<mark class="hl">先找出健檢報告裡最先超標的那一項</mark>，從那裡開始調整最有感——例如腰圍過粗就先從減少精緻澱粉和含糖飲料開始。若同時合併三高用藥中或有其他慢性病史，建議諮詢醫師擬定適合自己的調整計畫。',
     followups:[
-      {label:'那已經膝蓋痛的人怎麼辦？', reply:'膝蓋不適時建議這樣做：<br/><br/>1. <mark class="hl">先讓專業判斷</mark> — 持續疼痛超過兩週，建議就醫檢查，釐清是肌腱、韌帶還是退化問題<br/>2. <mark class="hl">選擇低衝擊運動</mark> — 游泳、水中走路、固定式腳踏車，維持活動又不加重負擔<br/>3. <mark class="hl">強化大腿肌力</mark> — 坐姿抬腿、靠牆半蹲等溫和訓練，肌肉強了膝蓋負擔就小<br/><br/>疼痛是身體的訊號，硬撐著繼續爬樓梯反而容易讓小問題變大問題。'},
-      {label:'有沒有保護膝蓋的運動建議？', reply:'保護膝蓋的核心觀念是「養肌力」，大腿前側的股四頭肌就是膝蓋的天然護膝：<br/><br/>1. <mark class="hl">坐姿抬腿</mark> — 坐在椅子上將單腿伸直抬起，停5秒放下，每邊10次<br/>2. <mark class="hl">靠牆半蹲</mark> — 背靠牆緩慢下蹲至大腿微痠，不需蹲深，停10秒<br/>3. <mark class="hl">游泳或水中走路</mark> — 水的浮力減輕關節負擔，適合各年齡層<br/><br/>循序漸進最重要，運動中若出現尖銳疼痛就要停下來喔。'}
+      {label:'紅字很多項，應該先看哪一個？', reply:'建議<mark class="hl">先處理腰圍</mark>——它是判定代謝症候群最簡易的指標，也是最容易靠飲食運動改善的一項，腰圍瘦下來，血壓、血糖、血脂通常也會跟著改善。<br/><br/>若血糖或血壓數值已經明顯偏高（例如空腹血糖超過126或血壓超過140/90），建議<mark class="hl">優先就醫評估</mark>，不要單靠自己調整生活習慣觀察，避免延誤治療時機。'},
+      {label:'多久後再檢查會看到改善？', reply:'生活習慣調整後，<mark class="hl">腰圍與血壓通常較快有感</mark>，持續2-3個月就可能看到變化；血糖與血脂則需要更長時間，一般建議<mark class="hl">3-6個月後回診追蹤</mark>比較能反映真實改善程度。<br/><br/>重點是持續而非速效，太快看不到效果就放棄，反而是最常見的失敗原因。'}
     ],
-    closing:{label:'想了解更多骨關節健康趨勢', view:'collect', topic:'肌少症'}
+    closing:{label:'想了解更多代謝症候群趨勢', view:'collect', topic:'代謝症候群'}
   },
   {
-    match:/咖啡|提神/,
-    reply:'先給結論：對多數健康成人來說，適量喝咖啡是安全的，甚至有研究支持它與部分健康益處相關。重點在「適量」與「你屬於哪個族群」。<br/><br/>1. 多少算適量<br/>一般建議<mark class="hl">每日咖啡因攝取不超過300-400毫克</mark>，大約是2-3杯美式咖啡。要留意咖啡因不只藏在咖啡裡——茶、能量飲、可樂、巧克力都有，計算時要一起算進去。<br/><br/>2. 哪些族群要多留意<br/>孕婦建議將攝取量減半（每日200毫克以下）；有心律不整、高血壓控制不佳或胃食道逆流的族群，建議先與醫師討論適合的量；青少年則建議盡量減少攝取。<br/><br/>3. 喝的時間比喝的量更常被忽略<br/>咖啡因的半衰期約4-6小時，下午3點後攝取，到了睡前體內可能還有一半在作用，這是許多人「睡不好卻找不到原因」的常見盲點。想護睡眠，<mark class="hl">把咖啡留在中午前</mark>。<br/><br/>行動建議：<mark class="hl">觀察自己喝完的身體反應就是最好的判斷基準</mark>——會心悸、手抖、胃部不適，就是身體在提醒你該減量了。若已有心血管或腸胃疾病且症狀反覆出現，建議諮詢醫師找出適合自己的攝取方式。',
+    match:/新冠|確診|covid|疫苗/i,
+    reply:'先給結論：<mark class="hl">新冠疫情目前正處於升溫階段</mark>，還沒有到「已經退燒不用管」的時候——尤其是長者與慢性病史者，接種率明顯偏低，是目前最大的防護缺口。<br/><br/>1. 現在的疫情狀況<br/>疾管署統計顯示國內門急診就診人數持續上升，且已進入本季流行期，預估8月中下旬達到高峰。<br/><br/>2. 誰是高風險族群<br/>重症病例中65歲以上長者與具慢性病史者占大多數，但這群人當中有相當高比例尚未接種本季疫苗，防護力明顯不足。<br/><br/>3. 現在打疫苗還有意義嗎<br/>絕對有意義。<mark class="hl">接種後產生保護力需要一段時間</mark>，愈早接種愈能趕在這波流行高峰前建立防護。<br/><br/>行動建議：如果家裡有長輩或慢性病史的家人還沒打本季疫苗，<mark class="hl">建議這幾天就安排接種</mark>，比等疫情更嚴重才行動更划算。',
     followups:[
-      {label:'空腹喝咖啡不好嗎？', reply:'空腹喝咖啡因人而異。咖啡會刺激胃酸分泌，腸胃敏感或有胃食道逆流的人，空腹喝確實較容易感到不適，<mark class="hl">建議搭配食物一起</mark>。<br/><br/>腸胃健康的人空腹喝一般沒有大礙，不需要過度擔心。重點還是回到自己的身體感受——<mark class="hl">喝完會胃痛、心悸，就是身體在提醒你調整了</mark>。'},
-      {label:'喝咖啡會影響骨質嗎？', reply:'咖啡因確實會些微增加鈣質流失，但影響程度很小——只要鈣質攝取足夠（每日乳製品、深綠色蔬菜），適量咖啡對骨質的影響幾乎可以忽略。<br/><br/>比起戒咖啡，<mark class="hl">補足鈣質、維持運動、適度曬太陽</mark>對骨骼健康的幫助大得多。'}
+      {label:'打疫苗會有副作用嗎？', reply:'常見副作用多為<mark class="hl">注射部位痠痛、輕微疲倦或發燒</mark>，通常1-2天內會緩解，屬於身體產生保護力的正常反應。<br/><br/>嚴重過敏反應機率很低，但若接種後出現呼吸困難、胸悶等異常症狀，應立即就醫。整體而言，接種利大於弊，尤其對高風險族群更是如此。'},
+      {label:'確診了要注意什麼？', reply:'確診後建議：<br/><br/>1. <mark class="hl">充分休息、多補充水分</mark>，依症狀使用退燒止痛藥緩解不適<br/>2. <mark class="hl">留意呼吸狀況</mark>——若出現呼吸喘、血氧下降、意識改變等警訊，應盡快就醫<br/>3. <mark class="hl">避免與高危族群密切接觸</mark>，保護家中長輩或慢性病患者<br/><br/>多數人症狀輕微在家休養即可，但長者與慢性病史者建議提高警覺，及早與醫師聯繫。'}
     ],
-    closing:{label:'想了解更多健康議題分析', view:'collect', topic:null}
+    closing:{label:'想了解更多疫情最新數據', view:'collect', topic:'新冠疫情升溫'}
   },
   {
     match:/睡眠|失眠|睡不著|睡不好/,
@@ -3165,7 +3332,7 @@ const DEMO_CHAT = [
   }
 ];
 
-const DEMO_CHAT_FALLBACK = '這是個好問題！示範模式的對話範例有限，您可以試著問我：<br/>「爬樓梯真的傷膝蓋嗎？」<br/>「咖啡一天可以喝幾杯？」<br/>「睡不好怎麼辦？」<br/><br/>或直接告訴我想分析、轉譯、審閱什麼，我會帶您前往對應的工作檯。';
+const DEMO_CHAT_FALLBACK = '這是個好問題！示範模式的對話範例有限，您可以試著問我：<br/>「健檢報告出現代謝症候群紅字，要緊張嗎？」<br/>「現在新冠疫情又升溫了，還需要打疫苗嗎？」<br/>「睡不好怎麼辦？」<br/><br/>或直接告訴我想分析、轉譯、審閱什麼，我會帶您前往對應的工作檯。';
 
 function demoFollowups(item){
   const opts = item.followups.map(f=>f.label);
@@ -3338,6 +3505,7 @@ async function route(text){
 
 /* ── INIT ── */
 (function(){
+  renderHome();
   botMsg('您好，我是健康智慧中樞 AI 助理。<br/><br/>您可以直接告訴我需求（例如「幫我分析失智症的趨勢」），或點選下方功能開始。');
   chips(['分析健康議題趨勢','轉譯健康內容給特定受眾','審閱待發布的健康文案'], opt=>{
     userMsg(opt);
