@@ -178,6 +178,23 @@ body{
 }
 .view-input-row input:focus,.view-input-row textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-bg)}
 .view-input-row textarea{resize:vertical;min-height:100px;line-height:1.6}
+.doctype-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:.9rem;align-items:center}
+.doctype-label{font-size:12px;font-weight:700;color:var(--text3);margin-right:2px}
+.doctype-chip{padding:7px 15px;border:1px solid var(--border-md);border-radius:20px;font-size:12.5px;font-weight:700;cursor:pointer;background:var(--surface);color:var(--text2);font-family:var(--font);transition:all .15s}
+.doctype-chip:hover{border-color:var(--amber);color:var(--amber-dark)}
+.doctype-chip.active{background:var(--amber-bg);border-color:var(--amber);color:var(--amber-dark)}
+.attach-row{margin-bottom:1.1rem}
+.attach-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px dashed var(--border-md);border-radius:var(--r-sm);font-size:12.5px;font-weight:700;color:var(--text2);cursor:pointer;background:var(--surface);transition:all .15s}
+.attach-btn:hover{border-color:var(--amber);color:var(--amber-dark)}
+.attach-hint{display:block;font-size:11.5px;color:var(--text3);margin-top:6px}
+.attach-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.attach-item{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--border-md);border-radius:var(--r-sm);background:var(--surface2);font-size:12px}
+.attach-item>.ti{font-size:15px;color:var(--amber)}
+.attach-item .att-name{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.attach-item .att-size{color:var(--text3)}
+.attach-item .att-x{cursor:pointer;color:var(--text3);border:none;background:none;font-size:13px;line-height:1;padding:0 2px}
+.attach-item .att-x:hover{color:#B91C1C}
+.attach-thumb{width:26px;height:26px;object-fit:cover;border-radius:4px;border:1px solid var(--border-md)}
 
 .result-box{position:relative}
 .copy-btn{
@@ -188,16 +205,6 @@ body{
 .copy-btn:hover{background:var(--green-bg);border-color:var(--green);color:var(--green-dark)}
 
 .empty-hint{color:var(--text3);font-size:13px;padding:2.5rem 0;text-align:center}
-
-.human-review{background:var(--amber-bg);border:1px solid #F6D9A8;border-radius:var(--r);padding:1.35rem 1.5rem;margin-top:1.35rem}
-.hr-title{font-size:13.5px;font-weight:800;color:var(--amber-dark);margin-bottom:12px;display:flex;align-items:center;gap:7px}
-.hr-choice-row{display:flex;gap:8px;margin-bottom:10px}
-.hr-choice{padding:9px 18px;border-radius:11px;border:1px solid var(--border-md);background:var(--surface);cursor:pointer;font-size:13px;font-weight:700;font-family:var(--font);transition:all .15s}
-.hr-choice:hover{border-color:var(--amber)}
-.hr-choice.sel-approve.selected{background:var(--green-bg);border-color:var(--green);color:var(--green-dark)}
-.hr-choice.sel-revise.selected{background:#FFE3D6;border-color:#D9480F;color:#B8380B}
-.hr-note{width:100%;font-family:var(--font);font-size:13px;padding:10px 12px;border:1px solid var(--border-md);border-radius:11px;min-height:60px;margin-bottom:10px;resize:vertical;background:var(--surface)}
-.hr-note:focus{outline:none;border-color:var(--amber)}
 
 /* ── 審閱結果：風險徽章與總評 ── */
 .risk-badge{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;margin-left:8px;vertical-align:middle;letter-spacing:.3px}
@@ -217,11 +224,6 @@ body{
 .sugg-example{font-size:13px;color:var(--green-dark);background:var(--green-bg);border-radius:8px;padding:7px 10px;margin-top:7px;line-height:1.6}
 .compliance-note{font-size:12.5px;color:var(--text2);background:var(--surface2);border:1px dashed var(--border-md);border-radius:10px;padding:9px 12px;margin-top:10px;display:flex;gap:7px;align-items:flex-start;line-height:1.6}
 .alert-pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;padding:4px 11px;border-radius:20px;margin-top:6px}
-
-.audit-trail{margin-top:1.5rem}
-.audit-trail-title{font-size:11.5px;font-weight:800;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
-.audit-item{font-size:12.5px;color:var(--text2);padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:11px;margin-bottom:7px;display:flex;gap:12px;box-shadow:var(--shadow-xs)}
-.audit-item .at-time{color:var(--text3);flex-shrink:0}
 
 /* ── CHAT VIEW ── */
 .chat-scroll{flex:1;overflow-y:auto;padding:1.5rem 1.5rem .5rem;display:flex;flex-direction:column;gap:14px}
@@ -662,17 +664,31 @@ mark.hl{background:linear-gradient(180deg,transparent 15%,#FFEC99 15%,#FFEC99 90
     <div class="view-panel" id="review-view">
       <div class="view-topbar" data-color="review">
         <div class="view-title"><span class="view-icon-badge"><i class="ti ti-shield-check"></i></span>審閱・內容檢核治理</div>
-        <div class="view-tag">AI 預審＋人工複審雙重把關</div>
+        <div class="view-tag">AI 預審・匯出檢核表供正式照會</div>
       </div>
       <div class="view-scroll">
+        <div class="doctype-row">
+          <span class="doctype-label">文件類型</span>
+          <button type="button" class="doctype-chip active" data-doctype="DM" onclick="setReviewDocType(this)">DM</button>
+          <button type="button" class="doctype-chip" data-doctype="圖文" onclick="setReviewDocType(this)">圖文</button>
+          <button type="button" class="doctype-chip" data-doctype="教育文件" onclick="setReviewDocType(this)">教育文件</button>
+          <button type="button" class="doctype-chip" data-doctype="新聞稿" onclick="setReviewDocType(this)">新聞稿</button>
+        </div>
         <div class="view-input-row">
-          <textarea id="review-input" placeholder="請貼上要審閱的健康內容文案…"></textarea>
+          <textarea id="review-input" placeholder="貼上要審閱的文案；或改用下方「附加檔案」上傳 DM／圖文圖片或 PDF"></textarea>
+        </div>
+        <div class="attach-row">
+          <label class="attach-btn">
+            <i class="ti ti-paperclip"></i>附加檔案（圖片／PDF）
+            <input type="file" id="review-file" accept="image/png,image/jpeg,image/webp,image/gif,application/pdf" multiple hidden onchange="addReviewFiles(this.files); this.value='';">
+          </label>
+          <span class="attach-hint">DM、圖文用圖片；教育文件、新聞稿可用 PDF。單檔上限 15MB，需 API Key。</span>
+          <div id="review-file-list" class="attach-list"></div>
         </div>
         <button class="action-btn primary" onclick="runReview()" style="margin-bottom:1.25rem"><i class="ti ti-shield-check"></i>執行 AI 預審</button>
         <div id="review-result">
-          <div class="empty-hint">貼上內容並執行 AI 預審，通過後可送交人工複審</div>
+          <div class="empty-hint">貼上內容或附加檔案，執行 AI 預審後可下載檢核表，附於公司正式照會流程</div>
         </div>
-        <div id="audit-trail-list" class="audit-trail"></div>
       </div>
     </div>
 
@@ -686,15 +702,19 @@ let translatedContent = '';
 let lastArticleData = null;
 let lastInfocardData = null;
 let currentView = 'chat';
-let reviewChoice = null;
-const auditTrail = [];
+let reviewDocType = 'DM';
+let reviewAttachments = [];   // {name,size,mediaType,kind:'image'|'pdf',data(base64),dataUrl}
+const REVIEW_FILE_MAX = 15 * 1024 * 1024;
+const REVIEW_FILE_TYPES = ['image/png','image/jpeg','image/webp','image/gif','application/pdf'];
+let lastReviewData = null;   // 最近一次 AI 預審結果（供匯出檢核表）
+let lastReviewCtx = null;    // {content, docType, atts:[{name,kind}], isDemo, at:Date}
 let DEMO_MODE = false;
 
 /* ═══════════════════════════════════════════════════
    治理層 PROMPT（寫死於系統，不開放前端調整）
    修改流程：依內部規格書討論定案 → 更新此處 → 更新版本號 → 跑驗收清單
 ═══════════════════════════════════════════════════ */
-const PROMPT_VERSION = 'v1.3 (2026-07-17)';
+const PROMPT_VERSION = 'v1.9 (2026-08-28)';
 
 const SYS_PROMPTS = {
 
@@ -840,18 +860,35 @@ translate: `你是台灣人壽保險公司的健康知識轉譯專家，負責�
 8. 健康圖卡的 table 數值、stats 數值與 note 年份，沒有把握查證時一律用保守級距或少放一項，不得為了版面完整掰造數字、年份或來源；sources 只能填實際引用到的機構／媒體
 9. 健康圖卡的 illustration 僅為情境描述供前端選圖，Claude 不得自行輸出 SVG／emoji／圖片網址；imagePrompt 不得含療效或保證用語、真實人名或特定品牌`,
 
-review: `你是台灣人壽保險公司的健康內容治理審閱專家，執行內容發布前的 AI 預審。你的判斷將提供給人工複審者參考，每個判定都必須附上具體證據（引用原文字句），不可只給結論。
+review: `你是台灣人壽保險公司的健康內容治理審閱專家，執行內容發布前的 AI 預審。你的判斷將提供給人工複審者參考，每個判定都必須附上具體證據（逐字引用原文字句），不可只給結論。
 
 ## 審閱立場
 - 從嚴：有疑慮時寧可標高一級風險，由人工複審者降級，不可反向
 - 你不是最終決策者：產出為「預審意見」，措辭使用「建議」「疑慮」，不使用「駁回」「禁止發布」
-- 語言：繁體中文，不使用 markdown 符號
+- 查無把握不放行：數據、來源、醫療陳述只要無法確認，一律標記風險並在建議中請承辦窗口確認，不得因「看起來合理」就判通過
+- 完整涵蓋：待審內容若為多段文章（標題、引言、各小節、智庫觀點、資料來源清單），四維度判定與 suggestions 需通盤檢視每一段，不可只看引言或單一句子；evidence 可引用任一段落，並盡量點出段落位置（如「智庫觀點段」「第二小節」）。資料來源清單本身也是檢核對象：是否有列出、是否屬可信類型、是否對應內文引用的數據
+- 語言：繁體中文，台灣用語，不使用 markdown 符號
 
-## 四維度檢核標準
-【醫療正確性】檢查疾病機轉描述是否符合現行衛教共識、數據是否合理、有無過時或錯誤醫療觀念。高風險＝明確錯誤的醫療陳述或療效保證用語（治癒、根治）；中風險＝陳述過於絕對（「一定會」「必然導致」）或引用來源不明的具體數據；低風險＝用語不夠精確但不致誤導；通過＝陳述與現行衛教資訊一致且程度用語恰當。
-【保險法遵合規】禁用詞：保證、治癒、根治、絕對、一定賺、最高、最優、第一、唯一、零風險、穩賺。高風險＝出現禁用詞、療效或收益保證、與事實不符的商品描述；中風險＝涉及投保理賠陳述但未加註「以保單條款為準」、商品資訊揭露不完整；低風險＝用語接近但未達禁用程度（如「非常有效」）；通過＝無禁用語且必要揭露完整。
-【品牌語調一致性】品牌基準：專業、溫暖、值得信賴；不油腔滑調、不恐嚇、不輕浮。高風險＝恐嚇式訴求、貶低同業、嚴重衝突用語；中風險＝語氣與目標場景不符；低風險＝個別用詞可再優化；通過＝語調符合基準與場景。
-【受眾適切性】檢查內容難度與目標受眾理解程度是否匹配、有無排除或冒犯特定族群的表達。高風險＝可能冒犯或歧視特定族群；中風險＝專業術語未解釋、比喻過於抽象；低風險＝可讀性可再提升但不影響理解；通過＝難度匹配且表達包容。
+## 文件類型（依 User Prompt 提供的「文件類型」調整檢核重點，四維度共用但權重不同）
+- DM（宣傳單張）：招攬廣告規範最重——應載事項是否完整、有無禁用詞、有無比較性或誇大用語、涉及投保理賠是否加註「以保單條款為準」、行動呼籲與免責聲明是否齊備
+- 圖文（社群圖卡）：精簡版面下的數據正確性；資料來源與免責聲明是否完整未被省略；不得以視覺效果取代必要文字揭露；用語需口語但不失準
+- 教育文件（衛教長文／電子報，多為多段長文，常由本平台「轉譯－健康文章」產出）：須逐段檢核標題、引言、各小節（含表格與條列）、智庫觀點與資料來源清單；醫療正確性與數據時效最重；法遵相對次要但仍不得誇大療效；醫學術語需轉白話；智庫觀點若提到投保／理賠／保費須有「以保單條款為準」類揭露
+- 新聞稿：事實與數據查核、引述來源是否具名可查；媒體語氣得體；不得夾帶招攬意圖（若出現商品推銷語句屬高風險，須改走廣告送審程序）
+
+## 附件處理（User 訊息若含圖片或 PDF）
+- 待審內容可能以圖片（DM／圖文完稿）或 PDF（教育文件／新聞稿）提供；有附件時以附件的實際版面為主要審閱對象，另外貼上的文字僅作輔助。
+- evidence 改為引用圖／PDF 中「可見的文字」；引用不到完整句子時，改描述其位置（如「頁尾免責聲明」「主視覺大標」「表格第2列」）。
+- 版面類問題一併檢核並歸入對應維度：必要文字（免責聲明、資料來源、警語）是否確實出現在版面上且未被裁切、字級是否過小、文字與背景對比是否不足、圖與文是否有落差、是否以圖像效果取代必要文字揭露——法遵性質歸「保險法遵合規」，理解性質歸「受眾適切性與可讀性」。
+
+## 四維度檢核標準（固定 4 項、順序固定）
+【醫療正確性與數據查核】三個面向一起看：
+(1) 數據正確性與時效：具體數字、年份、比率是否能回推到最原始出處；是否已採用最新版本的官方統計（例：癌症登記報告已發布較新年度，內容仍引用數年前舊版且兩者有落差→中風險）；正文有無標註資料年份
+(2) 引用來源公正性：來源是否為公部門（衛福部、國健署、疾管署等）、醫療院所、學術機構或可信健康媒體／雜誌；來源不明、非上述類型或無法對應到具體機構時，不得逕判通過，須於 evidence 指出並在 suggestions 給「建議與承辦窗口確認原始出處」
+(3) 敘述與推論合理性：疾病機轉、因果關係、預防效果的描述是否符合現行台灣衛教共識；有無過度推論或誇大
+高風險＝明確錯誤的醫療陳述、療效保證用語（治癒、根治）、與衛教共識牴觸的因果或預防宣稱（如「某成分可100%預防癌症」）、引用已知錯誤或無法查證的杜撰數據；中風險＝數據過時且有更新版本未採用、具體數字查無原始出處、來源不屬可信類型且未標示待確認、陳述過於絕對（「一定會」「必然導致」）；低風險＝數據與共識一致但未標註年份、來源可信但未具體到機構層級、程度用語略不精確但不致誤導；通過＝數據正確且為現行最新、來源可追溯且屬可信類型、機轉與推論皆符合現行衛教共識。
+【保險法遵合規】禁用詞：保證、治癒、根治、絕對、一定、最高、最優、第一、唯一、零風險、穩賺。高風險＝出現禁用詞、療效或收益保證、與事實不符的商品描述、新聞稿夾帶商品推銷；中風險＝涉及投保／理賠／保費陳述但未加註「以保單條款為準」、商品資訊揭露不完整、DM 應載事項缺漏；低風險＝用語接近但未達禁用程度（如「非常有效」「效果顯著」）；通過＝無禁用語、必要揭露完整、無誇大不實商品描述。
+【品牌語調一致性】品牌基準：專業、溫暖、值得信賴；不油腔滑調、不恐嚇、不輕浮。高風險＝恐嚇式訴求、貶低同業、嚴重衝突用語；中風險＝語氣與文件類型的溝通場景不符（如教育文件過度口語、新聞稿過度行銷腔）；低風險＝個別用詞可再優化；通過＝語調符合基準與文件類型場景。
+【受眾適切性與可讀性】依文件類型的實際讀者（一般民眾／業務員／媒體記者）判斷內容難度與表達。高風險＝可能冒犯或歧視特定族群；中風險＝醫學術語未轉白話或未加註說明、比喻過於抽象、內容難度明顯高於目標讀者；低風險＝可讀性可再提升但不影響理解；通過＝難度與目標讀者匹配、術語皆已白話化、表達包容。
 
 ## 輸出格式契約
 只輸出一個 JSON 物件，不加任何前言或 markdown 圍欄：
@@ -859,30 +896,31 @@ review: `你是台灣人壽保險公司的健康內容治理審閱專家，執�
   "overall": "pass或minor_revision或major_revision",
   "overall_reason": "一句話總評",
   "dimensions": [
-    {"name":"醫療正確性","level":"通過或低風險或中風險或高風險","reason":"判定理由1-2句","evidence":"逐字引用原文具體字句；若通過填「無」"},
+    {"name":"醫療正確性與數據查核","level":"通過或低風險或中風險或高風險","reason":"判定理由1-2句","evidence":"逐字引用原文具體字句；若通過填「無」"},
     {"name":"保險法遵合規", "level":"…","reason":"…","evidence":"…"},
     {"name":"品牌語調一致性","level":"…","reason":"…","evidence":"…"},
-    {"name":"受眾適切性","level":"…","reason":"…","evidence":"…"}
+    {"name":"受眾適切性與可讀性","level":"…","reason":"…","evidence":"…"}
   ],
   "suggestions": [
     {"issue":"問題描述","severity":"high或medium或low","fix":"修正方向","example":"針對 evidence 原句的可直接取用改寫句"}
   ]
 }
 欄位規則：
-- dimensions 固定 4 項且順序固定
+- dimensions 固定 4 項且順序固定（醫療正確性與數據查核、保險法遵合規、品牌語調一致性、受眾適切性與可讀性）
 - overall 判定：任一維度高風險 → major_revision；僅中低風險 → minor_revision；全數通過 → pass
 - suggestions 依 severity 由高至低排序，2-4 條；全數通過時為空陣列
-- 每條 example 必須是可直接取用的改寫句，不是抽象描述
+- 每條 example 必須是可直接取用的改寫句，不是抽象描述；涉及來源查證的建議，example 寫成待承辦窗口確認的提問句
 
 ## 範例
-待審內容「…能有效透過保單的健檢加值服務追蹤，保證及早發現、及早治癒！…」（LINE推播文案）的部分標準輸出：
-{"overall":"major_revision","overall_reason":"法遵維度出現禁用語，建議修正後再送審。","dimensions":[{"name":"醫療正確性","level":"中風險","reason":"整體衛教資訊與現行共識一致，但出現療效保證用語。","evidence":"「保證及早發現、及早治癒」"},{"name":"保險法遵合規","level":"高風險","reason":"出現「保證」「治癒」等招攬規範禁用字眼，且缺少保單條款免責聲明。","evidence":"「保證及早發現、及早治癒」；全文未見「以保單條款為準」等揭露"},{"name":"品牌語調一致性","level":"通過","reason":"語氣輕鬆親切，符合LINE推播溝通調性。","evidence":"無"},{"name":"受眾適切性","level":"低風險","reason":"「前哨站」為比喻性說法，部分族群理解程度不一。","evidence":"「心血管疾病的前哨站」"}],"suggestions":[{"issue":"使用療效保證字眼「保證」「治癒」","severity":"high","fix":"改為不涉及療效保證的中性描述","example":"有助及早發現健康警訊、及早調整生活習慣"},{"issue":"缺少商品資訊免責聲明","severity":"medium","fix":"文末加註免責聲明","example":"※詳細保障內容以保單條款為準"},{"issue":"「前哨站」比喻對部分族群略抽象","severity":"low","fix":"加入白話對照說明","example":"代謝症候群常是心血管疾病的早期警訊（就像身體亮起的黃燈）"}]}
+待審內容（文件類型：圖文）「…每4人就有1人罹患代謝症候群（108年國健署資料），能有效透過保單的健檢加值服務追蹤，保證及早發現、及早治癒！…」的標準輸出：
+{"overall":"major_revision","overall_reason":"法遵維度出現禁用語、數據疑似過時，建議修正後再送審。","dimensions":[{"name":"醫療正確性與數據查核","level":"中風險","reason":"整體衛教方向與共識一致，但引用108年國健署數據，較新年度調查可能已更新，且出現療效保證用語。","evidence":"「每4人就有1人罹患代謝症候群（108年國健署資料）」；「保證及早發現、及早治癒」"},{"name":"保險法遵合規","level":"高風險","reason":"出現「保證」「治癒」等招攬規範禁用字眼，且涉及保單服務但缺少保單條款免責聲明。","evidence":"「保證及早發現、及早治癒」；全文未見「以保單條款為準」等揭露"},{"name":"品牌語調一致性","level":"通過","reason":"語氣親切，符合社群圖文溝通調性。","evidence":"無"},{"name":"受眾適切性與可讀性","level":"低風險","reason":"「健檢加值服務」為內部用語，一般民眾理解程度不一。","evidence":"「保單的健檢加值服務」"}],"suggestions":[{"issue":"使用療效保證字眼「保證」「治癒」","severity":"high","fix":"改為不涉及療效保證的中性描述","example":"有助及早發現健康警訊、及早調整生活習慣"},{"issue":"缺少商品資訊免責聲明","severity":"medium","fix":"文末加註免責聲明","example":"※詳細保障內容以保單條款為準"},{"issue":"引用108年國健署數據，可能已有更新版本","severity":"medium","fix":"改用最新一版國健署調查並標註年份，無法確認時洽承辦窗口","example":"請承辦窗口確認：代謝症候群盛行率是否有較108年更新的國健署調查版本可引用？"},{"issue":"「健檢加值服務」為內部用語","severity":"low","fix":"改為一般民眾能懂的說法","example":"透過定期健康檢查追蹤身體狀況"}]}
 
 ## 護欄規則
-1. evidence 必須逐字引用待審內容中實際存在的字句，不可改寫或憑空引用
+1. evidence 必須逐字引用「待審內容或所附圖片／PDF」中實際存在、可見的字句，不可改寫、不可憑空引用、更不可引用本 prompt 範例段落中的句子；引用前先確認該字句確實出現在使用者提供的內容或附件裡（附件若無法辨識完整句子，改以位置描述取代逐字引用）
 2. 不因內容立場偏好調整風險等級，只依檢核標準判定
-3. 待審內容若完全與健康或保險無關，只回傳：{"error":"內容不在健康內容治理範疇"}
-4. 待審內容少於20字無法有效審閱時，只回傳：{"error":"內容過短，請提供完整待審內容"}`
+3. 來源或數據無法查證時，維持風險標記並於 suggestions 請承辦窗口確認，不得自行假設為正確而判通過
+4. 待審內容若完全與健康或保險無關，只回傳：{"error":"內容不在健康內容治理範疇"}
+5. 無附件、且待審文字少於20字無法有效審閱時，只回傳：{"error":"內容過短，請提供完整待審內容"}；但只要有圖片或 PDF 附件即照常審閱，不因文字少而回傳此錯誤`
 
 };
 
@@ -932,6 +970,7 @@ function enterDemoMode(){
   document.getElementById('collect-input').value = '代謝症候群';
   document.getElementById('translate-input').value = '代謝症候群';
   document.getElementById('review-input').value = DEMO_REVIEW_SAMPLE;
+  setReviewDocTypeByValue('圖文');
   renderTopics(FALLBACK_TOPICS);
   botMsg('已進入示範模式。您可以直接在這裡問我健康問題，例如：<br/>「爬樓梯真的傷膝蓋嗎？」<br/>「咖啡一天可以喝幾杯？」<br/>「睡不好怎麼辦？」');
 }
@@ -946,11 +985,20 @@ function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/
 function autoGrow(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px' }
 function handleKey(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMessage(); } }
 
-async function ai(system, msg){
+async function ai(system, msg, attachments){
+  // attachments: [{kind:'image'|'pdf', mediaType, data(base64，無換行)}]；有附件時 content 改為區塊陣列，檔案區塊在文字之前
+  const content = (attachments && attachments.length)
+    ? [
+        ...attachments.map(a => a.kind === 'pdf'
+          ? {type:'document', source:{type:'base64', media_type:'application/pdf', data:a.data}}
+          : {type:'image',    source:{type:'base64', media_type:a.mediaType,        data:a.data}}),
+        {type:'text', text:msg}
+      ]
+    : msg;
   const res = await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01'},
-    body: JSON.stringify({model:'claude-sonnet-4-6',max_tokens:2500,system,messages:[{role:'user',content:msg}]})
+    body: JSON.stringify({model:'claude-sonnet-4-6',max_tokens:2500,system,messages:[{role:'user',content}]})
   });
   const data = await res.json();
   if(data.error) throw new Error(data.error.message);
@@ -1857,21 +1905,173 @@ const DEMO_TRANSLATE = {
   }
 };
 
-const DEMO_REVIEW_SAMPLE = '🩺 健康小提醒｜代謝症候群知多少？\n\n腰圍、血壓、血糖，三項有兩項超標就要注意囉！代謝症候群是心血管疾病的前哨站，且能有效透過保單的健檢加值服務追蹤，保證及早發現、及早治癒！\n\n點擊了解您的專屬健康方案 👉';
+const DEMO_REVIEW_SAMPLE = '🩺 健康小提醒｜代謝症候群知多少？\n\n腰圍、血壓、血糖，三項有兩項超標就要注意囉！根據108年國健署資料，20-64歲每4人就有1人有代謝症候群。它是心血管疾病的前哨站，且能有效透過保單的健檢加值服務追蹤，保證及早發現、及早治癒！\n\n點擊了解您的專屬健康方案 👉';
 
 const DEMO_REVIEW = {
   overall:'major_revision',
-  overall_reason:'法遵維度出現禁用語，建議修正後再送審。',
+  overall_reason:'法遵維度出現禁用語、數據疑似過時，建議修正後再送審。',
   dimensions:[
-    {name:'醫療正確性',level:'中風險',reason:'整體衛教資訊與現行共識一致，但出現療效保證用語。',evidence:'「保證及早發現、及早治癒」'},
-    {name:'保險法遵合規',level:'高風險',reason:'出現「保證」「治癒」等招攬規範禁用字眼，且缺少保單條款免責聲明。',evidence:'「保證及早發現、及早治癒」；全文未見「以保單條款為準」等揭露'},
-    {name:'品牌語調一致性',level:'通過',reason:'語氣輕鬆親切，符合LINE推播溝通調性。',evidence:'無'},
-    {name:'受眾適切性',level:'低風險',reason:'「前哨站」為比喻性說法，部分族群理解程度不一。',evidence:'「心血管疾病的前哨站」'}
+    {name:'醫療正確性與數據查核',level:'中風險',reason:'衛教方向與共識一致，但引用108年國健署數據，較新年度調查可能已更新，且出現療效保證用語。',evidence:'「根據108年國健署資料，20-64歲每4人就有1人有代謝症候群」；「保證及早發現、及早治癒」'},
+    {name:'保險法遵合規',level:'高風險',reason:'出現「保證」「治癒」等招攬規範禁用字眼，且涉及保單服務但缺少保單條款免責聲明。',evidence:'「保證及早發現、及早治癒」；全文未見「以保單條款為準」等揭露'},
+    {name:'品牌語調一致性',level:'通過',reason:'語氣輕鬆親切，符合社群圖文溝通調性。',evidence:'無'},
+    {name:'受眾適切性與可讀性',level:'低風險',reason:'「健檢加值服務」為內部用語，一般民眾理解程度不一。',evidence:'「保單的健檢加值服務」'}
   ],
   suggestions:[
     {issue:'使用療效保證字眼「保證」「治癒」',severity:'high',fix:'改為不涉及療效保證的中性描述',example:'有助及早發現健康警訊、及早調整生活習慣'},
     {issue:'缺少商品資訊免責聲明',severity:'medium',fix:'文末加註免責聲明',example:'※詳細保障內容以保單條款為準'},
-    {issue:'「前哨站」比喻對部分族群略抽象',severity:'low',fix:'加入白話對照說明',example:'代謝症候群常是心血管疾病的早期警訊（就像身體亮起的黃燈）'}
+    {issue:'引用108年國健署數據，可能已有更新版本',severity:'medium',fix:'改用最新一版國健署調查並標註年份，無法確認時洽承辦窗口',example:'請承辦窗口確認：代謝症候群盛行率是否有較108年更新的國健署調查版本可引用？'},
+    {issue:'「健檢加值服務」為內部用語',severity:'low',fix:'改為一般民眾能懂的說法',example:'透過定期健康檢查追蹤身體狀況'}
+  ]
+};
+
+/* 對應「轉譯－健康文章」7 篇示範樣張的審閱示範：每篇一組四維度判定與修正建議，evidence 逐字取自該篇文章。
+   key＝議題名稱（＝FALLBACK_TOPICS），title＝該篇文章標題，用於在示範模式比對貼上的內容屬於哪一篇。 */
+const DEMO_REVIEW_ARTICLES = {
+  '代謝症候群': {
+    title:'代謝症候群是什麼？「三高＋二害」判定標準一次看',
+    overall:'minor_revision',
+    overall_reason:'內容正確、來源可信且屬純衛教，無法遵疑慮；少數數據出處與專有名詞建議補充後即可發布。',
+    dimensions:[
+      {name:'醫療正確性與數據查核',level:'低風險',reason:'判定標準與盛行率數據與現行國健署衛教一致，且已標註調查年度（2017-2020）；惟「風險增加2至6倍」「近5成腰圍過粗」未標明資料年份或明確出處。',evidence:'「未來發生糖尿病、心血管疾病的風險將增加2至6倍」；「中壯年族群近5成腰圍過粗」'},
+      {name:'保險法遵合規',level:'通過',reason:'全文為衛教內容，未出現禁用詞，未涉及投保、理賠、保費或商品描述，依規範免附免責聲明。',evidence:'無'},
+      {name:'品牌語調一致性',level:'通過',reason:'語氣專業而親切，行動建議正向、未使用恐嚇式訴求，符合品牌基準與衛教長文場景。',evidence:'無'},
+      {name:'受眾適切性與可讀性',level:'低風險',reason:'醫學指標多已附中文全稱，難度大致符合一般民眾；惟「我的餐盤」「代謝症候群防治計畫」為官方專有名詞，建議首次出現時加一句白話說明。',evidence:'「採用「我的餐盤」原則均衡飲食」；「可透過國健署與健保署合作的代謝症候群防治計畫」'}
+    ],
+    suggestions:[
+      {issue:'「風險增加2至6倍」「近5成腰圍過粗」未標明資料年份或明確出處',severity:'medium',fix:'補上調查名稱與年份，或改用保守描述；查無把握時洽承辦窗口確認',example:'請承辦窗口確認：「糖尿病、心血管疾病風險增加2至6倍」與「中壯年近5成腰圍過粗」的原始統計出處與年份為何？'},
+      {issue:'「我的餐盤」為國健署專有名詞，部分讀者不熟悉',severity:'low',fix:'首次出現時加一句白話說明',example:'採用國健署「我的餐盤」原則（每餐蔬菜約占一半、全穀雜糧與蛋白質各約1/4）均衡飲食'},
+      {issue:'「代謝症候群防治計畫」未說明民眾如何參加',severity:'low',fix:'補一句參與方式或洽詢管道',example:'可洽居住地衛生所或健保特約診所，詢問是否可加入國健署「代謝症候群防治計畫」追蹤'}
+    ]
+  },
+  '失智症預防': {
+    title:'失智症可以預防？12項危險因子一次看',
+    overall:'minor_revision',
+    overall_reason:'衛教方向與國際共識一致，法遵無疑慮；多項預防效果的量化數字缺具體研究來源，建議補強後發布。',
+    dimensions:[
+      {name:'醫療正確性與數據查核',level:'中風險',reason:'盛行率數據引自衛福部且有標年份；惟「約45%可預防」與地中海飲食降7成、運動降近6成等效果量化僅稱「國際研究估計」，未具體到研究名稱或年份，數字偏強。',evidence:'「國際研究估計，約45%的失智症個案其實可透過控制危險因子預防或延緩發生」；「採地中海飲食：多蔬果、好油、少精緻澱粉，阿茲海默症風險可下降約7成」'},
+      {name:'保險法遵合規',level:'通過',reason:'純衛教內容，無禁用詞，未涉投保理賠或商品。',evidence:'無'},
+      {name:'品牌語調一致性',level:'通過',reason:'語氣正向、鼓勵預備（「存腦本」），不使用恐嚇式訴求。',evidence:'無'},
+      {name:'受眾適切性與可讀性',level:'低風險',reason:'用語親切、比喻恰當；惟標題稱「12項危險因子一次看」，內文以4大類呈現、未逐項對應到12項，讀者可能對不上。',evidence:'「失智症可以預防？12項危險因子一次看」'}
+    ],
+    suggestions:[
+      {issue:'預防效果數字（降7成／近6成／近5成／4成）與「45%可預防」未標研究來源與年份',severity:'medium',fix:'補上國際研究名稱與年份，或改用「有機會顯著降低」等保守描述；查無把握時洽承辦窗口',example:'請承辦窗口確認：地中海飲食、規律運動等降低失智風險的百分比，出處為哪一份研究、年份為何？'},
+      {issue:'標題「12項危險因子」與內文4大類分類未對應',severity:'low',fix:'內文補上12項的逐項列點，或調整標題',example:'失智症可以預防？危險因子與4大保護行為一次看'},
+      {issue:'「職業暴露殺蟲劑等化學物質」略專業',severity:'low',fix:'加一句情境說明',example:'職業上長期接觸殺蟲劑等化學物質（例如農務、清潔消毒相關工作）'}
+    ]
+  },
+  '心血管風險管理': {
+    title:'每22分鐘1人死於心臟病！心血管風險這樣管理',
+    overall:'minor_revision',
+    overall_reason:'數據引自2025年死因統計且可追溯，法遵屬純衛教；標題語氣與個別用語建議緩和後發布。',
+    dimensions:[
+      {name:'醫療正確性與數據查核',level:'低風險',reason:'心臟病死亡頻率與十大死因排名引自2025年死因統計並標明公布時間，可追溯；「衍生疾病死亡率合計占比逾3成」未附明確計算依據。',evidence:'「衍生疾病（心臟病、腦血管疾病、糖尿病、高血壓、腎臟病）死亡率合計占比逾3成」'},
+      {name:'保險法遵合規',level:'低風險',reason:'屬純衛教未涉商品，惟「就能有效降低發生機率」用語接近療效保證，建議緩和。',evidence:'「及早掌握風險因子並調整生活型態，就能有效降低發生機率」'},
+      {name:'品牌語調一致性',level:'低風險',reason:'標題以「每22分鐘1人死於心臟病！」開場，屬事實但語氣偏警示，可斟酌把數字移到內文。',evidence:'「每22分鐘1人死於心臟病！心血管風險這樣管理」'},
+      {name:'受眾適切性與可讀性',level:'低風險',reason:'內容白話易懂；「護心8式」標題與內文僅列4項不一致。',evidence:'「護心8式，從日常做起」'}
+    ],
+    suggestions:[
+      {issue:'「就能有效降低發生機率」接近療效保證用語',severity:'medium',fix:'改為不涉及療效保證的中性描述',example:'及早掌握風險因子並調整生活型態，有助降低發生機率'},
+      {issue:'標題「每22分鐘1人死於心臟病！」語氣偏警示',severity:'low',fix:'標題緩和、把數據放內文',example:'心臟病連續多年居十大死因第2名 心血管風險這樣管理'},
+      {issue:'「護心8式」標題與內文僅列4項不符',severity:'low',fix:'補齊8項，或標題改為與內文一致',example:'護心4式，從日常做起'},
+      {issue:'「衍生疾病死亡率合計占比逾3成」未附計算依據',severity:'low',fix:'補上來源與資料年份',example:'請承辦窗口確認：代謝症候群衍生5類疾病死亡率合計占比的計算基礎與資料年份'}
+    ]
+  },
+  '長照3.0': {
+    title:'長照3.0三階段上路！給付對象大幅擴大',
+    overall:'minor_revision',
+    overall_reason:'政策時程與補助數據引自衛福部公告，法遵無疑慮；時間表述與專有名詞建議修正後發布。',
+    dimensions:[
+      {name:'醫療正確性與數據查核',level:'低風險',reason:'三階段時程與補助成長率引自衛福部公告與計畫核定本，可追溯；惟內文「自2026年起分階段取代長照2.0」與表格「第一階段2025年9月1日」時間點略有出入。',evidence:'「自2026年起分階段正式取代長照2.0」'},
+      {name:'保險法遵合規',level:'通過',reason:'政策說明，無禁用詞，未涉及商業保險投保理賠或商品。',evidence:'無'},
+      {name:'品牌語調一致性',level:'通過',reason:'語氣中性、資訊導向，符合政策說明場景。',evidence:'無'},
+      {name:'受眾適切性與可讀性',level:'中風險',reason:'「急性後期整合照護(PAC)」「長照需要達2級以上」等術語未加白話說明，一般讀者不易理解。',evidence:'「納入符合健保署急性後期整合照護計畫(PAC)收案對象，且長照需要達2級以上」'}
+    ],
+    suggestions:[
+      {issue:'PAC、長照需要等級等術語未解釋',severity:'medium',fix:'首次出現時加一句白話說明',example:'納入健保署「急性後期整合照護（PAC）」收案對象——即中風、骨折等急性治療後仍需一段時間復健的病人'},
+      {issue:'內文「自2026年起」與表格第一階段2025年9月不一致',severity:'low',fix:'統一時間表述',example:'自2025年9月起分三階段正式取代長照2.0'},
+      {issue:'資料來源可再補民眾實際查詢管道',severity:'low',fix:'補上專線與在地窗口的官方頁面',example:'補充來源：衛生福利部長期照顧專區（1966長照服務專線）'}
+    ]
+  },
+  '癌症篩檢覆蓋率': {
+    title:'六癌篩檢上路！新增胃癌篩檢資格一次看',
+    overall:'minor_revision',
+    overall_reason:'六癌篩檢對象與方式與國健署現行公告一致，法遵無疑慮；個別數據來源與名詞建議補充後發布。',
+    dimensions:[
+      {name:'醫療正確性與數據查核',level:'低風險',reason:'六癌篩檢年齡與方式與國健署現行公告一致；惟「約80-90%胃癌與幽門螺旋桿菌有關」未於內文標註資料來源或年份。',evidence:'「約80-90%的胃癌與幽門螺旋桿菌感染有關」'},
+      {name:'保險法遵合規',level:'通過',reason:'純衛教，無禁用詞，未涉投保理賠或商品。',evidence:'無'},
+      {name:'品牌語調一致性',level:'通過',reason:'語氣資訊導向、鼓勵篩檢，不恐嚇。',evidence:'無'},
+      {name:'受眾適切性與可讀性',level:'低風險',reason:'表格清楚；「低劑量電腦斷層(LDCT)」「幽門螺旋桿菌抗原檢測」等名詞可再加一句白話。',evidence:'「低劑量電腦斷層(LDCT)」'}
+    ],
+    suggestions:[
+      {issue:'「80-90%胃癌與幽門螺旋桿菌有關」未標來源年份',severity:'low',fix:'內文補註出處',example:'約80至90%的胃癌與幽門螺旋桿菌感染有關（依國民健康署胃癌防治衛教資訊）'},
+      {issue:'LDCT 等檢查名稱可加白話說明',severity:'low',fix:'首次出現時補一句說明',example:'低劑量電腦斷層（LDCT，一種輻射量較低的肺部電腦斷層掃描）'},
+      {issue:'表格「建議對象」年齡條件多，易隨公告調整',severity:'low',fix:'加一句提醒讀者以最新公告為準',example:'實際篩檢資格與年齡以國民健康署最新公告為準'}
+    ]
+  },
+  '心理健康意識': {
+    title:'全民心理健康韌性計畫上路！你我都能用的資源',
+    overall:'minor_revision',
+    overall_reason:'對敏感議題處理莊重、去污名，法遵無疑慮；盛行率數字缺調查來源，且求助管道可更具體。',
+    dimensions:[
+      {name:'醫療正確性與數據查核',level:'中風險',reason:'引用多項盛行率數字（25-27%、11.7%、19.7%）但內文未標明調查名稱與年份，來源清單僅列通用衛教資訊。',evidence:'「台灣憂鬱、焦慮等常見精神疾患盛行率近十年達25-27%，其中30-45歲族群比例最高」'},
+      {name:'保險法遵合規',level:'通過',reason:'純衛教與政策資訊，無禁用詞，未涉投保理賠或商品。',evidence:'無'},
+      {name:'品牌語調一致性',level:'通過',reason:'語氣同理、去污名（「主動諮詢並不代表脆弱」），對敏感議題處理莊重恰當。',evidence:'無'},
+      {name:'受眾適切性與可讀性',level:'低風險',reason:'用語親切、對敏感議題拿捏得宜；求助管道僅提「衛生局或心理衛生中心」，建議補上可直接撥打的專線。',evidence:'「詳細申請方式可洽當地衛生局或心理衛生中心」'}
+    ],
+    suggestions:[
+      {issue:'盛行率數字缺調查名稱與年份',severity:'medium',fix:'補上原始調查名稱與年份，或改用保守描述',example:'請承辦窗口確認：常見精神疾患盛行率25-27%、長者憂鬱症11.7%／19.7%的原始調查名稱與年份'},
+      {issue:'求助管道不夠具體',severity:'low',fix:'補上可立即使用的即時資源',example:'也可撥打衛福部1925安心專線（24小時），或洽當地社區心理衛生中心'},
+      {issue:'「6大策略」僅概括、未展開',severity:'low',fix:'補一兩個具體策略讓讀者有感',example:'6大策略涵蓋校園與職場前端預防、擴增社區諮商資源、強化自殺防治通報等面向'}
+    ]
+  },
+  '新冠疫情升溫': {
+    title:'新冠疫情8月中達高峰！長者接種率仍偏低',
+    overall:'minor_revision',
+    overall_reason:'疫情數據引自疾管署且標明週次，法遵無疑慮；即時數據時效性強、標題語氣偏急迫，建議加註資料日期並緩和。',
+    dimensions:[
+      {name:'醫療正確性與數據查核',level:'低風險',reason:'疫情數據引自疾管署並標明統計週次，可追溯；惟全篇大量使用單週即時數據與「目前」「本季」等相對時間，發布稍晚即可能失準。',evidence:'「單週就診人次(8/9-8/15) | 2.6萬人次，較前一週上升4.5%」'},
+      {name:'保險法遵合規',level:'通過',reason:'傳染病防治衛教，無禁用詞，未涉投保理賠或商品。',evidence:'無'},
+      {name:'品牌語調一致性',level:'低風險',reason:'標題以驚嘆號＋高峰、接種率偏低開場，語氣偏急迫，屬事實但可斟酌緩和。',evidence:'「新冠疫情8月中達高峰！長者接種率仍偏低」'},
+      {name:'受眾適切性與可讀性',level:'低風險',reason:'整體白話；「門急診就診人次」「重症」等詞可加一句說明，時間範圍建議統一標示西元日期。',evidence:'「單週新增重症 | 72例，創本季新高」'}
+    ],
+    suggestions:[
+      {issue:'全篇依賴單週即時數據、多處用「目前／本季」相對時間',severity:'medium',fix:'加註「資料統計至 YYYY/MM/DD」，並提醒讀者以疾管署最新週報為準',example:'（資料統計至2026年8月15日，最新疫情請見疾病管制署每週疫情報告）'},
+      {issue:'標題語氣偏急迫',severity:'low',fix:'緩和標題並把數字移到內文',example:'新冠進入本季流行高峰 長者疫苗接種率仍偏低'},
+      {issue:'「重症」「門急診就診人次」等詞未說明',severity:'low',fix:'首次出現加一句白話',example:'單週因新冠至門診或急診就醫約2.6萬人次'}
+    ]
+  }
+};
+
+/* 附件上傳的示範審閱結果（示範模式無法真的分析檔案，故為固定範例；evidence 以版面位置描述，符合 prompt「附件處理」規則）。 */
+const DEMO_REVIEW_IMAGE = {
+  overall:'major_revision',
+  overall_reason:'主視覺出現療效保證用語、頁尾免責聲明過小，建議修正後再送審。',
+  dimensions:[
+    {name:'醫療正確性與數據查核',level:'低風險',reason:'版面中段引用一項盛行率數字，但畫面上未標示資料年份與來源機構。',evidence:'版面中段的盛行率數字區塊'},
+    {name:'保險法遵合規',level:'高風險',reason:'主視覺大標出現「保證」字樣，屬招攬規範禁用詞；且畫面未見「以保單條款為準」等必要揭露。',evidence:'主視覺大標中的「保證」字樣；版面未見保單條款揭露文字'},
+    {name:'品牌語調一致性',level:'低風險',reason:'整體色調與用語尚符合品牌基準，惟右下角行動呼籲字句略帶推銷語氣。',evidence:'右下角行動呼籲按鈕文字'},
+    {name:'受眾適切性與可讀性',level:'中風險',reason:'頁尾免責聲明字級明顯過小、與背景對比不足，一般讀者不易閱讀；主視覺與說明文字之間資訊落差較大。',evidence:'頁尾免責聲明區塊'}
+  ],
+  suggestions:[
+    {issue:'主視覺出現「保證」等療效／收益保證用語',severity:'high',fix:'改為不涉及保證的中性訴求',example:'協助您及早關注健康變化'},
+    {issue:'版面未見「以保單條款為準」等必要揭露',severity:'high',fix:'於頁面明顯處補上商品資訊免責聲明',example:'※本文為健康資訊，實際保障內容以保單條款為準'},
+    {issue:'頁尾免責聲明字級過小、與底色對比不足',severity:'medium',fix:'放大字級並提高對比，確保可辨識',example:'免責聲明建議至少 10–12pt，深色字置於淺底'},
+    {issue:'引用的盛行率數字未標年份與來源',severity:'medium',fix:'於數字旁標註來源機構與年份',example:'（資料來源：國民健康署 2020 年調查）'}
+  ]
+};
+const DEMO_REVIEW_PDF = {
+  overall:'minor_revision',
+  overall_reason:'內容大致符合衛教共識、無法遵疑慮；部分數據出處與版面細節建議補強後發布。',
+  dimensions:[
+    {name:'醫療正確性與數據查核',level:'低風險',reason:'內文疾病說明與現行衛教一致；惟第2頁的統計數字未標明調查年份，末頁來源清單僅列機構名稱、未對應到具體文件。',evidence:'第2頁的統計數字段落；末頁「資料來源」清單'},
+    {name:'保險法遵合規',level:'通過',reason:'全篇為衛教內容，未見禁用詞，未涉及投保、理賠、保費或商品描述。',evidence:'無'},
+    {name:'品牌語調一致性',level:'通過',reason:'語氣專業而中性，排版與用語符合教育文件場景。',evidence:'無'},
+    {name:'受眾適切性與可讀性',level:'低風險',reason:'整體白話易懂；內文出現數處醫學縮寫未加中文全稱，圖表下方註解字級偏小。',evidence:'第3頁內文的醫學縮寫；圖表下方註解'}
+  ],
+  suggestions:[
+    {issue:'第2頁統計數字未標明調查年份與具體來源文件',severity:'medium',fix:'於數字旁或註腳補上調查名稱與年份，查無把握時洽承辦窗口',example:'請承辦窗口確認：第2頁盛行率數字的原始調查名稱與發布年份'},
+    {issue:'醫學縮寫未加中文全稱',severity:'low',fix:'首次出現時補中文全稱與簡短說明',example:'高密度脂蛋白膽固醇（HDL-C，俗稱「好膽固醇」）'},
+    {issue:'圖表下方註解字級偏小',severity:'low',fix:'放大註解字級至與內文相近，確保列印後仍可辨識',example:'圖表註解建議不小於 9pt'}
   ]
 };
 
@@ -2029,10 +2229,10 @@ function toPlainText(data){
     const ilLine = il ? `\n\n〔主視覺插圖〕${il.scene||il.topic||''}${il.source==='library'?`（素材：${il.id}）`:il.source==='ai'?'（AI 生成）':'（待補）'}` : '';
     return `${data.headline_hook||''}\n${data.headline_main||''}\n\n${data.intro||''}\n\n${secs}\n\n${tags}${srcs.length?`\n\n資料來源：${[...new Set(srcs)].join('、')}`:''}${ilLine}`;
   }
-  const secs = (data.sections||[]).map(s=>`■ ${s.heading}\n${sectionBodyText(s)}`).join('\n\n');
-  const tags = (data.hashtags||[]).map(h=>'#'+h).join('');
-  const refs = (data.references||[]).map(r=>`${r.title}－${r.source}${r.url?`（${r.url}）`:''}`).join('\n');
-  return `${data.title}\n最後更新日期：${data.update_date}\n\n${data.intro}\n\n${secs}\n\n【智庫觀點】\n${data.think_tank_view}\n\n${tags}\n\n資料來源\n${refs}`;
+  const secs = (data.sections||[]).map(s=>`${s.heading}\n${sectionBodyText(s)}`).join('\n\n');
+  const tags = (data.hashtags||[]).map(h=>'#'+h).join('　');
+  const refs = (data.references||[]).map(r=>`${r.title}－${r.source}`).join('\n');
+  return `${data.title}\n最後更新日期：${data.update_date}\n\n${data.intro}\n\n${secs}\n\n智庫觀點\n${data.think_tank_view}\n\n${tags}\n\n資料來源\n${refs}`;
 }
 
 function sectionBodyHTML(s){
@@ -2081,7 +2281,7 @@ function renderArticleResult(data, complianceNote){
     </div>
     <div class="detail-actions">
       <button class="action-btn secondary" onclick="openArticlePreview()"><i class="ti ti-eye"></i>預覽文章</button>
-      <button class="action-btn secondary" onclick="switchView('review');document.getElementById('review-input').value=translatedContent"><i class="ti ti-shield-check"></i>送交審閱</button>
+      <button class="action-btn secondary" onclick="switchView('review');document.getElementById('review-input').value=translatedContent;setReviewDocTypeByValue('教育文件')"><i class="ti ti-shield-check"></i>送交審閱</button>
     </div>
   `;
 }
@@ -2542,7 +2742,7 @@ function renderInfocardResult(data, complianceNote){
       <button class="action-btn secondary" onclick="regenerateIllustration(this)"><i class="ti ti-refresh"></i>重新生成插圖</button>
       <button class="action-btn secondary" onclick="swapIllustration(this)"><i class="ti ti-switch-horizontal"></i>更換插圖</button>
       <button class="action-btn secondary" onclick="copyText(translatedContent,this)"><i class="ti ti-copy"></i>複製文字稿</button>
-      <button class="action-btn secondary" onclick="switchView('review');document.getElementById('review-input').value=translatedContent"><i class="ti ti-shield-check"></i>送交審閱</button>
+      <button class="action-btn secondary" onclick="switchView('review');document.getElementById('review-input').value=translatedContent;setReviewDocTypeByValue('圖文')"><i class="ti ti-shield-check"></i>送交審閱</button>
     </div>
   `;
 }
@@ -2621,24 +2821,54 @@ async function runTranslate(type){
 async function runReview(){
   if(!API_KEY && !DEMO_MODE){ showModal(); return; }
   const content = document.getElementById('review-input').value.trim();
-  if(!content){ alert('請貼上要審閱的內容'); return; }
+  const atts = reviewAttachments.slice();
+  if(!content && !atts.length){ alert('請貼上要審閱的內容，或附加圖片／PDF'); return; }
   const result = document.getElementById('review-result');
   result.innerHTML = `<div class="detail-card"><div class="dc-body loading"><span class="spinner-sm"></span>AI 預審中…</div></div>`;
+  lastReviewData = null;
+  lastReviewCtx = { content, docType: reviewDocType, atts: atts.map(a=>({name:a.name, kind:a.kind})), isDemo: DEMO_MODE, at: new Date() };
 
   if(DEMO_MODE){
     await demoDelay();
-    renderReviewResult(DEMO_REVIEW, true);
+    if(atts.length){
+      const hasImg = atts.some(a=>a.kind==='image');
+      renderReviewResult(hasImg ? DEMO_REVIEW_IMAGE : DEMO_REVIEW_PDF, true);
+      result.insertAdjacentHTML('afterbegin',
+        `<div class="compliance-note" style="margin-bottom:12px"><i class="ti ti-info-circle" style="font-size:14px;margin-top:1px"></i><span>示範結果：此為${hasImg?'DM 圖片':'教育文件 PDF'}的固定範例，實際審閱會依你上傳檔案的內容與版面而異；輸入 API Key 即可分析真實檔案。</span></div>`);
+      return;
+    }
+    const artKey = Object.keys(DEMO_REVIEW_ARTICLES).find(k=>content.includes(DEMO_REVIEW_ARTICLES[k].title));
+    if(content.includes('健康小提醒') && content.includes('保證及早發現')){
+      renderReviewResult(DEMO_REVIEW, true);              // 圖文樣張：含禁用語，示範法遵高風險
+    }else if(artKey){
+      renderReviewResult(DEMO_REVIEW_ARTICLES[artKey], true);   // 對應的健康文章樣張：四維度判定與修正建議
+    }else{
+      result.innerHTML = `<div class="detail-card full">
+        <div class="dc-title"><i class="ti ti-info-circle" style="color:var(--amber)"></i>示範模式的 AI 預審僅適用於內建範例</div>
+        <div class="dc-body" style="line-height:1.9">
+          示範模式無法逐字分析任意內容。可先用內建範例看效果：<br/><br/>
+          ・<a href="#" onclick="loadReviewSample('infocard');return false;">健康圖卡文案（含禁用語）</a>——示範法遵高風險與一鍵改寫<br/>
+          ・轉譯任一熱門議題的「健康文章」後按「送交審閱」——示範四維度判定與修正建議<br/><br/>
+          想審閱這段實際內容，請於右上角輸入 Anthropic API Key 後再執行。
+        </div>
+      </div>`;
+    }
     return;
   }
 
+  const totalMB = atts.reduce((s,a)=>s+a.size,0)/1048576;
+  if(totalMB > 25){ result.innerHTML = `<div class="empty-hint">⚠ 附件總大小約 ${totalMB.toFixed(1)}MB，超過 25MB 上限，請移除部分檔案再試</div>`; return; }
+
   try{
-    const data = parseAI(await ai(getSysPrompt('review'), `待審內容：\n${content}`));
+    const body = content || `（見所附 ${atts.length} 個檔案，請以檔案的實際版面內容為準）`;
+    const userMsg = `文件類型：${reviewDocType}\n附件：${atts.length ? atts.map(a=>a.kind==='pdf'?'PDF':'圖片').join('、') : '無'}\n\n待審內容：\n${body}`;
+    const data = parseAI(await ai(getSysPrompt('review'), userMsg, atts));
     renderReviewResult(data, false);
   }catch(e){ result.innerHTML = `<div class="empty-hint">⚠ 錯誤：${esc(e.message)}</div>`; }
 }
 
 function renderReviewResult(data, isDemo){
-  reviewChoice = null;
+  lastReviewData = data;
   const result = document.getElementById('review-result');
   const ov = OVERALL_META[data.overall] || OVERALL_META.minor_revision;
   const SEV_LABEL = {high:'高',medium:'中',low:'低'};
@@ -2667,44 +2897,185 @@ function renderReviewResult(data, isDemo){
       <div class="dc-title"><i class="ti ti-tool"></i>修正建議</div>
       ${suggs}
     </div>
-    <div class="human-review">
-      <div class="hr-title"><i class="ti ti-user-check"></i>人工複審（AI 預審＋人複審）</div>
-      <div class="hr-choice-row">
-        <button class="hr-choice sel-approve" onclick="selectReviewChoice('approve',this)">✓ 核准通過</button>
-        <button class="hr-choice sel-revise" onclick="selectReviewChoice('revise',this)">✎ 需修正後再送審</button>
-      </div>
-      <textarea id="hr-note" class="hr-note" placeholder="複審備註（選填）"></textarea>
-      <button class="action-btn primary" onclick="submitHumanReview()"><i class="ti ti-send"></i>送出複審結果</button>
+    <div class="detail-actions" style="margin-top:14px">
+      <button class="action-btn primary" onclick="downloadReviewChecklist(this)"><i class="ti ti-file-type-docx"></i>下載檢核表（Word）</button>
     </div>
+    <div class="compliance-note" style="margin-top:10px"><i class="ti ti-info-circle" style="font-size:14px;margin-top:1px"></i><span>本檢核表為 AI 預審參考，非正式審核結論。請附於公司正式照會流程，供審閱者做最後人工審核。</span></div>
   `;
 }
 
-function selectReviewChoice(choice, btn){
-  reviewChoice = choice;
-  document.querySelectorAll('.hr-choice').forEach(el=>el.classList.remove('selected'));
-  btn.classList.add('selected');
+function setReviewDocType(btn){
+  reviewDocType = btn.dataset.doctype;
+  document.querySelectorAll('.doctype-chip').forEach(el=>el.classList.toggle('active', el===btn));
 }
-
-function submitHumanReview(){
-  if(!reviewChoice){ alert('請先選擇複審結果'); return; }
-  const note = document.getElementById('hr-note').value.trim();
-  auditTrail.unshift({
-    time: new Date().toLocaleString('zh-TW',{hour12:false}),
-    choice: reviewChoice==='approve' ? '核准通過' : '需修正後再送審',
-    note,
-    version: PROMPT_VERSION
+function setReviewDocTypeByValue(v){
+  const btn = document.querySelector('.doctype-chip[data-doctype="'+v+'"]');
+  if(btn) setReviewDocType(btn);
+}
+function addReviewFiles(fileList){
+  Array.from(fileList||[]).forEach(f=>{
+    if(!REVIEW_FILE_TYPES.includes(f.type)){ alert(`不支援的檔案格式：${f.name}\n僅接受 PNG／JPEG／WebP／GIF／PDF`); return; }
+    if(f.size > REVIEW_FILE_MAX){ alert(`檔案過大：${f.name}（${(f.size/1048576).toFixed(1)}MB）\n單檔上限 15MB`); return; }
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const dataUrl = String(e.target.result || '');
+      reviewAttachments.push({
+        name:f.name, size:f.size, mediaType:f.type,
+        kind: f.type==='application/pdf' ? 'pdf' : 'image',
+        data: dataUrl.split(',')[1] || '', dataUrl
+      });
+      renderReviewFileList();
+    };
+    reader.readAsDataURL(f);
   });
-  renderAuditTrail();
-  reviewChoice = null;
-  document.getElementById('hr-note').value='';
-  document.querySelectorAll('.hr-choice').forEach(el=>el.classList.remove('selected'));
+}
+function removeReviewFile(i){ reviewAttachments.splice(i,1); renderReviewFileList(); }
+function renderReviewFileList(){
+  const el = document.getElementById('review-file-list');
+  el.innerHTML = reviewAttachments.map((a,i)=>`
+    <div class="attach-item">
+      ${a.kind==='image' ? `<img class="attach-thumb" src="${a.dataUrl}" alt="">` : `<i class="ti ti-file-type-pdf"></i>`}
+      <span class="att-name">${esc(a.name)}</span>
+      <span class="att-size">${(a.size/1048576).toFixed(1)}MB</span>
+      <button class="att-x" title="移除" onclick="removeReviewFile(${i})">✕</button>
+    </div>`).join('');
 }
 
-function renderAuditTrail(){
-  const el = document.getElementById('audit-trail-list');
-  if(auditTrail.length===0){ el.innerHTML=''; return; }
-  el.innerHTML = `<div class="audit-trail-title">Audit Trail 審查紀錄</div>` +
-    auditTrail.map(a=>`<div class="audit-item"><span class="at-time">${esc(a.time)}</span><span>${esc(a.choice)}${a.note? '　備註：'+esc(a.note):''}<span style="color:var(--text3)">　治理規則 ${esc(a.version||PROMPT_VERSION)}</span></span></div>`).join('');
+function loadReviewSample(kind){
+  if(kind === 'article'){
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}/${String(today.getMonth()+1).padStart(2,'0')}/${String(today.getDate()).padStart(2,'0')}`;
+    document.getElementById('review-input').value = toPlainText(fillTpl(DEMO_ARTICLE_OVERRIDES['代謝症候群'], '代謝症候群', dateStr));
+    setReviewDocTypeByValue('教育文件');
+  }else{
+    document.getElementById('review-input').value = DEMO_REVIEW_SAMPLE;
+    setReviewDocTypeByValue('圖文');
+  }
+  runReview();
+}
+
+/* ── 匯出「AI 預審檢核表」Word（供公司正式照會附件） ── */
+async function downloadReviewChecklist(btn){
+  if(!lastReviewData){ return; }
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-sm"></span>產生中…';
+  try{
+    const { Document, Packer, Paragraph, TextRun, HeadingLevel, Table, TableRow, TableCell, WidthType, BorderStyle } = window.docx;
+    const FONT = '微軟正黑體';
+    const d = lastReviewData;
+    const ctx = lastReviewCtx || {};
+    const SEV_LABEL = {high:'高', medium:'中', low:'低'};
+    const ovLabel = (OVERALL_META[d.overall] || OVERALL_META.minor_revision).label;
+    const now = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    const stamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+
+    const cb = {style:BorderStyle.SINGLE, size:2, color:'D8DEE6'};
+    const cbs = {top:cb, bottom:cb, left:cb, right:cb};
+    const noB = {style:BorderStyle.NONE, size:0, color:'FFFFFF'};
+    const run = (text, opts={}) => new TextRun({text:String(text), font:FONT, ...opts});
+    const spacer = a => new Paragraph({text:'', spacing:{after:a||120}});
+    function brandBar(text){
+      return new Table({
+        width:{size:100, type:WidthType.PERCENTAGE},
+        rows:[new TableRow({children:[new TableCell({
+          shading:{fill:'B45309'}, margins:{top:120, bottom:120, left:200, right:200},
+          borders:{top:noB, bottom:noB, left:noB, right:noB},
+          children:[new Paragraph({children:[run(text, {bold:true, color:'FFFFFF', size:20})]})]
+        })]})],
+        borders:{top:noB, bottom:noB, left:noB, right:noB, insideHorizontal:noB, insideVertical:noB}
+      });
+    }
+    function kvTable(rows){
+      return new Table({
+        width:{size:100, type:WidthType.PERCENTAGE},
+        rows: rows.map(([k,v]) => new TableRow({children:[
+          new TableCell({borders:cbs, shading:{fill:'F5F7FA'}, width:{size:24,type:WidthType.PERCENTAGE}, margins:{top:70,bottom:70,left:120,right:120}, children:[new Paragraph({children:[run(k,{bold:true})]})]}),
+          new TableCell({borders:cbs, margins:{top:70,bottom:70,left:120,right:120}, children:[new Paragraph({children:[run(v)]})]})
+        ]}))
+      });
+    }
+    function gridTable(headers, rows, widths){
+      const hdr = new TableRow({children: headers.map((h,i)=> new TableCell({
+        borders:cbs, shading:{fill:'FDEBD3'}, width: widths?{size:widths[i],type:WidthType.PERCENTAGE}:undefined,
+        margins:{top:70,bottom:70,left:110,right:110},
+        children:[new Paragraph({children:[run(h,{bold:true, color:'8A4B0A'})]})]
+      }))});
+      const body = rows.map(r=> new TableRow({children: r.map((c,i)=> new TableCell({
+        borders:cbs, width: widths?{size:widths[i],type:WidthType.PERCENTAGE}:undefined,
+        margins:{top:70,bottom:70,left:110,right:110},
+        children: String(c).split('\n').map(line=> new Paragraph({children:[run(line)], spacing:{line:240}}))
+      }))}));
+      return new Table({width:{size:100, type:WidthType.PERCENTAGE}, rows:[hdr, ...body]});
+    }
+
+    const kids = [];
+    kids.push(brandBar('健康智慧中樞・AI 預審檢核表'));
+    kids.push(spacer(200));
+    kids.push(kvTable([
+      ['產出時間', now.toLocaleString('zh-TW',{hour12:false})],
+      ['文件類型', ctx.docType || '（未指定）'],
+      ['治理規則版本', PROMPT_VERSION],
+      ['預審來源', ctx.isDemo ? '示範模式（固定範例，非實際分析）' : 'AI 預審'],
+      ['附件', (ctx.atts && ctx.atts.length) ? ctx.atts.map(a=>`${a.name}（${a.kind==='pdf'?'PDF':'圖片'}）`).join('；') : '無']
+    ]));
+    kids.push(spacer(260));
+
+    kids.push(new Paragraph({text:'一、待審內容', heading:HeadingLevel.HEADING2}));
+    if(ctx.content){
+      ctx.content.split('\n').forEach(line=> kids.push(new Paragraph({children:[run(line)], spacing:{after:40, line:240}})));
+    }else{
+      kids.push(new Paragraph({children:[run('（本次以所附檔案為審閱對象，內容見附件）', {italics:true, color:'6B7280'})], spacing:{line:240}}));
+    }
+    kids.push(spacer(240));
+
+    kids.push(new Paragraph({text:'二、AI 預審總評', heading:HeadingLevel.HEADING2}));
+    kids.push(new Paragraph({children:[run(`${ovLabel}｜${d.overall_reason||''}`)], spacing:{after:200, line:240}}));
+
+    kids.push(new Paragraph({text:'三、四維度檢核', heading:HeadingLevel.HEADING2}));
+    kids.push(gridTable(
+      ['維度','風險等級','判定理由','證據'],
+      (d.dimensions||[]).map(x=>[x.name||'', x.level||'', x.reason||'', x.evidence||'無']),
+      [20, 12, 40, 28]
+    ));
+    kids.push(spacer(240));
+
+    kids.push(new Paragraph({text:'四、修正建議（產出者送照會前逐項檢視）', heading:HeadingLevel.HEADING2}));
+    kids.push(gridTable(
+      ['#','問題','嚴重度','修正方向','建議改寫','產出者處理註記'],
+      (d.suggestions||[]).map((s,i)=>[String(i+1), s.issue||'', SEV_LABEL[s.severity]||'', s.fix||'', s.example||'', '□ 已修正　□ 不適用　□ 待審閱者判斷']),
+      [5, 22, 8, 24, 24, 17]
+    ));
+    if(!(d.suggestions||[]).length){
+      kids.push(new Paragraph({children:[run('（無修正建議）', {italics:true, color:'6B7280'})]}));
+    }
+    kids.push(spacer(300));
+
+    kids.push(brandBar('AI 輔助預審，不取代人工審核；正式核准以公司照會結果為準。'));
+
+    const doc = new Document({
+      styles:{
+        default:{ document:{ run:{font:FONT, size:20} } },
+        paragraphStyles:[
+          {id:'Heading2', name:'Heading 2', basedOn:'Normal', next:'Normal', quickFormat:true,
+            run:{font:FONT, bold:true, size:24, color:'B45309'}, paragraph:{spacing:{before:220, after:110}}}
+        ]
+      },
+      sections:[{ children: kids }]
+    });
+    const blob = await Packer.toBlob(doc);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `AI預審檢核表_${(ctx.docType||'內容').replace(/[\\/:*?"<>|]/g,'')}_${stamp}.docx`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }catch(e){
+    alert('檢核表產生失敗：'+e.message);
+  }finally{
+    btn.disabled = false;
+    btn.innerHTML = orig;
+  }
 }
 
 /* ═══════════════════════════════
