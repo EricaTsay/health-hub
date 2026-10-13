@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 340">
+  <!-- 示範：模擬影像模型依 imagePrompt 生成的結果（長照3.0｜照顧者協助行動不便的長輩在家中活動） -->
+  <ellipse cx="200" cy="320" rx="178" ry="11" fill="#e3ebe5"/>
+  <path d="M64 146Q78 54 194 48Q314 46 322 146Q326 240 198 250Q60 250 64 146Z" fill="#f6eedb"/>
+  <!-- 窗戶 -->
+  <rect x="262" y="40" width="104" height="116" rx="8" fill="#eaf4f6" stroke="#cfe2d6" stroke-width="3"/>
+  <path d="M314 40v116M262 98h104" stroke="#cfe2d6" stroke-width="3"/>
+  <circle cx="290" cy="70" r="10" fill="#f3e8cf"/>
+  <!-- 盆栽 -->
+  <path d="M350 300Q340 262 358 232Q372 266 360 300Z" fill="#7fb595"/>
+  <path d="M362 300Q366 270 386 254Q386 284 368 300Z" fill="#2e7d51"/>
+  <path d="M340 296h40l-5 20h-30z" fill="#e2c68f"/>
+  <!-- 助行器 -->
+  <path d="M84 198h80" stroke="#8fa39a" stroke-width="7" stroke-linecap="round"/>
+  <path d="M90 198l-8 108M158 198l8 108" stroke="#8fa39a" stroke-width="6" stroke-linecap="round"/>
+  <path d="M86 256h76" stroke="#a9b8b1" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="82" cy="310" r="7" fill="#5d6f7a"/>
+  <circle cx="166" cy="310" r="7" fill="#5d6f7a"/>
+  <!-- 長輩 -->
+  <rect x="116" y="228" width="20" height="80" rx="8" fill="#5d6f7a"/>
+  <rect x="140" y="228" width="20" height="80" rx="8" fill="#4f616b"/>
+  <ellipse cx="124" cy="310" rx="14" ry="6" fill="#1f262b"/>
+  <ellipse cx="150" cy="310" rx="14" ry="6" fill="#1f262b"/>
+  <path d="M108 166Q112 140 134 136H156Q176 140 178 166L174 238H112Z" fill="#e9dcbc"/>
+  <path d="M112 170Q98 186 100 198L112 200Q114 188 122 180Z" fill="#d8c8a2"/>
+  <circle cx="104" cy="200" r="8" fill="#f1c7a5"/>
+  <circle cx="160" cy="200" r="8" fill="#f1c7a5"/>
+  <path d="M168 168Q170 190 162 200L152 196Q158 184 156 172Z" fill="#d8c8a2"/>
+  <rect x="136" y="118" width="16" height="20" rx="6" fill="#e9b892"/>
+  <circle cx="146" cy="100" r="23" fill="#f1c7a5"/>
+  <path d="M123 102Q121 74 148 74Q170 76 169 98Q161 84 144 86Q130 88 123 102Z" fill="#d6dbde"/>
+  <circle cx="139" cy="103" r="2.3" fill="#2c2f3a"/>
+  <circle cx="154" cy="103" r="2.3" fill="#2c2f3a"/>
+  <path d="M141 112q6 4 12 0" stroke="#b5735a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <!-- 照顧者 -->
+  <rect x="222" y="226" width="20" height="84" rx="8" fill="#34404a"/>
+  <rect x="248" y="226" width="20" height="84" rx="8" fill="#2b353d"/>
+  <ellipse cx="230" cy="312" rx="15" ry="6" fill="#1f262b"/>
+  <ellipse cx="258" cy="312" rx="15" ry="6" fill="#1f262b"/>
+  <path d="M212 150Q214 124 236 120H260Q282 124 284 150L280 236H216Z" fill="#17603f"/>
+  <path d="M216 156Q196 170 178 178L182 192Q206 186 226 172Z" fill="#14563a"/>
+  <circle cx="176" cy="184" r="8" fill="#f1c7a5"/>
+  <path d="M280 156Q290 190 272 214L262 206Q274 188 268 164Z" fill="#14563a"/>
+  <rect x="240" y="102" width="16" height="20" rx="6" fill="#e9b892"/>
+  <circle cx="248" cy="84" r="23" fill="#f1c7a5"/>
+  <path d="M225 84Q225 58 250 58Q272 58 271 82Q262 70 246 72Q232 74 225 84Z" fill="#3a2f2a"/>
+  <path d="M268 70q18 4 16 26q-8-12-18-14z" fill="#3a2f2a"/>
+  <circle cx="241" cy="88" r="2.3" fill="#2c2f3a"/>
+  <circle cx="256" cy="88" r="2.3" fill="#2c2f3a"/>
+  <path d="M243 97q6 4 12 0" stroke="#b5735a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <!-- 小愛心 -->
+  <path d="M198 92l-9-8a5 5 0 1 1 9-6 5 5 0 1 1 9 6z" fill="#e2b85c"/>
+</svg>

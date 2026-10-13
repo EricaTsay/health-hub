@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 340">
+  <!-- 示範：模擬影像模型依 imagePrompt 生成的結果（代謝症候群｜量腰圍＋健檢報告＋蔬果） -->
+  <ellipse cx="206" cy="318" rx="176" ry="12" fill="#e3ebe5"/>
+  <path d="M96 128 Q112 46 204 42 Q304 40 312 138 Q318 236 214 256 Q104 270 96 128Z" fill="#f6eedb"/>
+  <!-- 盆栽 -->
+  <path d="M52 300 Q44 262 62 228 Q74 262 62 300Z" fill="#7fb595"/>
+  <path d="M64 300 Q66 266 94 244 Q94 280 72 300Z" fill="#2e7d51"/>
+  <path d="M44 296h44l-5 22H49z" fill="#e2c68f"/>
+  <!-- 桌子 -->
+  <rect x="236" y="226" width="150" height="12" rx="4" fill="#cfd8d3"/>
+  <rect x="250" y="238" width="8" height="80" rx="3" fill="#b7c3bd"/>
+  <rect x="366" y="238" width="8" height="80" rx="3" fill="#b7c3bd"/>
+  <!-- 水杯 -->
+  <path d="M244 188h22l-3 38h-16z" fill="#eaf4f6" stroke="#bcd3d9" stroke-width="2"/>
+  <path d="M246.5 202h17l-1.6 22h-13.8z" fill="#cfe6ec"/>
+  <!-- 健檢報告 -->
+  <g transform="rotate(-5 304 190)">
+    <rect x="276" y="148" width="64" height="80" rx="8" fill="#fff" stroke="#cfe2d6" stroke-width="3"/>
+    <rect x="294" y="141" width="28" height="13" rx="5" fill="#17603f"/>
+    <rect x="286" y="167" width="44" height="5" rx="2.5" fill="#d7e8dd"/>
+    <rect x="286" y="177" width="30" height="5" rx="2.5" fill="#e6efe9"/>
+    <rect x="288" y="204" width="8" height="16" rx="2" fill="#b9d8c4"/>
+    <rect x="300" y="196" width="8" height="24" rx="2" fill="#7fb595"/>
+    <rect x="312" y="188" width="8" height="32" rx="2" fill="#17603f"/>
+  </g>
+  <!-- 蘋果與香蕉 -->
+  <circle cx="362" cy="212" r="14" fill="#7fb595"/>
+  <path d="M362 198q1-7 7-10" stroke="#2e7d51" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M364 196q9-6 13 0q-7 5-13 0z" fill="#2e7d51"/>
+  <path d="M336 224q10 2 18-8q-2 12-18 10z" fill="#e2b85c"/>
+  <!-- 人物：腿 -->
+  <rect x="148" y="226" width="22" height="86" rx="9" fill="#34404a"/>
+  <rect x="176" y="226" width="22" height="86" rx="9" fill="#2b353d"/>
+  <ellipse cx="157" cy="314" rx="17" ry="7" fill="#1f262b"/>
+  <ellipse cx="189" cy="314" rx="17" ry="7" fill="#1f262b"/>
+  <!-- 上身 -->
+  <path d="M134 148Q136 120 158 116H188Q210 120 212 148L206 236H140Z" fill="#17603f"/>
+  <path d="M162 116l11 16 11-16z" fill="#f6efe1"/>
+  <rect x="165" y="98" width="16" height="20" rx="6" fill="#e9b892"/>
+  <!-- 頭 -->
+  <circle cx="173" cy="78" r="26" fill="#f1c7a5"/>
+  <path d="M147 78Q147 48 174 48Q200 48 199 76Q188 63 170 65Q156 67 147 78Z" fill="#2c2f3a"/>
+  <circle cx="164" cy="82" r="2.4" fill="#2c2f3a"/>
+  <circle cx="183" cy="82" r="2.4" fill="#2c2f3a"/>
+  <path d="M166 92q7 5 14 0" stroke="#b5735a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <!-- 捲尺繞腰 -->
+  <rect x="136" y="200" width="74" height="13" rx="3" fill="#e2b85c"/>
+  <path d="M144 200v6M152 200v4M160 200v6M168 200v4M176 200v6M184 200v4M192 200v6M200 200v4" stroke="#9c7a2c" stroke-width="1.6"/>
+  <path d="M208 207q15 10 9 36l-9-2q4-19-6-27z" fill="#e2b85c"/>
+  <!-- 手臂與手 -->
+  <path d="M136 142Q121 172 129 204L143 202Q139 172 148 150Z" fill="#14563a"/>
+  <path d="M210 142Q225 172 217 204L203 202Q207 172 198 150Z" fill="#14563a"/>
+  <circle cx="137" cy="206" r="9" fill="#f1c7a5"/>
+  <circle cx="209" cy="206" r="9" fill="#f1c7a5"/>
+</svg>

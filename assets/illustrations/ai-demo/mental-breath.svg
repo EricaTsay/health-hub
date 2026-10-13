@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 340">
+  <!-- 示範：模擬影像模型依 imagePrompt 生成的結果（心理健康｜青壯年閉眼深呼吸、逐漸放鬆） -->
+  <ellipse cx="200" cy="320" rx="178" ry="11" fill="#e3ebe5"/>
+  <circle cx="200" cy="150" r="126" fill="#f6eedb"/>
+  <!-- 漂浮葉片 -->
+  <path d="M70 92q16-20 36-14q-14 18-36 14z" fill="#7fb595"/>
+  <path d="M318 70q18-12 34 0q-18 12-34 0z" fill="#b9d8c4"/>
+  <path d="M332 182q14-16 30-10q-12 14-30 10z" fill="#7fb595"/>
+  <!-- 呼吸波 -->
+  <path d="M250 96q14-8 28 0t28 0" stroke="#7fb595" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M256 116q12-7 24 0t24 0" stroke="#b9d8c4" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- 坐墊 -->
+  <ellipse cx="200" cy="294" rx="104" ry="20" fill="#cfd8d3"/>
+  <!-- 盤腿 -->
+  <path d="M112 276Q130 244 200 250Q270 244 288 276Q270 292 200 286Q130 292 112 276Z" fill="#34404a"/>
+  <ellipse cx="122" cy="280" rx="14" ry="7" fill="#f1c7a5"/>
+  <ellipse cx="278" cy="280" rx="14" ry="7" fill="#f1c7a5"/>
+  <!-- 上身 -->
+  <path d="M160 168Q162 140 186 136H214Q238 140 240 168L246 258H154Z" fill="#17603f"/>
+  <path d="M188 136l12 14 12-14z" fill="#f6efe1"/>
+  <!-- 手放膝上 -->
+  <path d="M162 176Q140 214 146 250L162 252Q160 220 176 192Z" fill="#14563a"/>
+  <path d="M238 176Q260 214 254 250L238 252Q240 220 224 192Z" fill="#14563a"/>
+  <circle cx="152" cy="256" r="9" fill="#f1c7a5"/>
+  <circle cx="248" cy="256" r="9" fill="#f1c7a5"/>
+  <!-- 頭（閉眼） -->
+  <rect x="192" y="116" width="16" height="22" rx="6" fill="#e9b892"/>
+  <circle cx="200" cy="96" r="25" fill="#f1c7a5"/>
+  <path d="M175 96Q174 68 202 68Q226 68 225 94Q215 80 198 82Q184 84 175 96Z" fill="#2c2f3a"/>
+  <circle cx="200" cy="62" r="11" fill="#2c2f3a"/>
+  <path d="M187 100q4 3 8 0M205 100q4 3 8 0" stroke="#2c2f3a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <path d="M194 110q6 3 12 0" stroke="#b5735a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <!-- 茶杯與盆栽 -->
+  <path d="M310 282h28l-3 22h-22z" fill="#fff" stroke="#cfe2d6" stroke-width="2.5"/>
+  <path d="M338 288q10 0 8 8q-2 5-9 5" stroke="#cfe2d6" stroke-width="2.5" fill="none"/>
+  <path d="M318 274q-4-8 2-14M328 274q-4-8 2-14" stroke="#b9d8c4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M58 300Q48 264 66 236Q80 266 68 300Z" fill="#7fb595"/>
+  <path d="M70 300Q72 268 96 250Q96 282 76 300Z" fill="#2e7d51"/>
+  <path d="M48 296h40l-5 20H53z" fill="#e2c68f"/>
+</svg>

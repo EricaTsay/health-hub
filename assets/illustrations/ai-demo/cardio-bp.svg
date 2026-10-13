@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 340">
+  <!-- 示範：模擬影像模型依 imagePrompt 生成的結果（心血管風險管理｜在家量血壓、看心律圖） -->
+  <ellipse cx="200" cy="320" rx="178" ry="11" fill="#e3ebe5"/>
+  <path d="M70 140Q84 50 196 46Q312 46 320 140Q324 236 200 246Q66 248 70 140Z" fill="#f6eedb"/>
+  <!-- 牆上心律圖 -->
+  <rect x="236" y="40" width="128" height="84" rx="10" fill="#fff" stroke="#cfe2d6" stroke-width="3"/>
+  <path d="M250 88h22l8-22 12 40 10-28 6 10h42" stroke="#17603f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 沙發 -->
+  <rect x="46" y="164" width="196" height="76" rx="24" fill="#cfd8d3"/>
+  <rect x="34" y="220" width="220" height="54" rx="18" fill="#b7c3bd"/>
+  <rect x="52" y="272" width="12" height="40" rx="4" fill="#8f9c96"/>
+  <rect x="224" y="272" width="12" height="40" rx="4" fill="#8f9c96"/>
+  <!-- 人物（坐） -->
+  <rect x="122" y="220" width="96" height="24" rx="10" fill="#34404a"/>
+  <rect x="178" y="232" width="22" height="76" rx="9" fill="#34404a"/>
+  <rect x="204" y="232" width="22" height="76" rx="9" fill="#2b353d"/>
+  <ellipse cx="187" cy="310" rx="16" ry="6" fill="#1f262b"/>
+  <ellipse cx="215" cy="310" rx="16" ry="6" fill="#1f262b"/>
+  <path d="M110 158Q112 132 134 128H162Q184 132 186 158L190 238H108Z" fill="#17603f"/>
+  <path d="M136 128l12 14 12-14z" fill="#f6efe1"/>
+  <rect x="140" y="110" width="16" height="20" rx="6" fill="#e9b892"/>
+  <circle cx="148" cy="90" r="24" fill="#f1c7a5"/>
+  <path d="M124 90Q124 62 150 62Q174 62 173 88Q163 76 146 78Q132 80 124 90Z" fill="#2c2f3a"/>
+  <circle cx="141" cy="94" r="2.3" fill="#2c2f3a"/>
+  <circle cx="157" cy="94" r="2.3" fill="#2c2f3a"/>
+  <path d="M142 103q6 4 12 0" stroke="#b5735a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <!-- 伸出的手臂＋血壓袖帶 -->
+  <path d="M180 146l44 36-10 13-44-34z" fill="#14563a"/>
+  <rect x="190" y="152" width="24" height="16" rx="4" fill="#5d6f7a" transform="rotate(38 202 160)"/>
+  <circle cx="224" cy="192" r="9" fill="#f1c7a5"/>
+  <path d="M206 168Q240 150 270 206" stroke="#8fa39a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- 邊桌與血壓計 -->
+  <rect x="254" y="232" width="96" height="10" rx="4" fill="#d9b77a"/>
+  <rect x="266" y="242" width="8" height="68" rx="3" fill="#a98a5c"/>
+  <rect x="330" y="242" width="8" height="68" rx="3" fill="#a98a5c"/>
+  <rect x="266" y="182" width="64" height="50" rx="9" fill="#fff" stroke="#cfe2d6" stroke-width="3"/>
+  <rect x="274" y="190" width="48" height="24" rx="4" fill="#dcefe3"/>
+  <path d="M298 208l-8-7a4.5 4.5 0 1 1 8-5 4.5 4.5 0 1 1 8 5z" fill="#17603f"/>
+  <circle cx="298" cy="223" r="4" fill="#7fb595"/>
+  <!-- 盆栽 -->
+  <path d="M352 300Q344 266 360 240Q372 270 362 300Z" fill="#7fb595"/>
+  <path d="M344 296h32l-4 20h-24z" fill="#e2c68f"/>
+</svg>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 340">
+  <!-- 示範：模擬影像模型依 imagePrompt 生成的結果（失智症預防｜長者與家人一起閱讀、保持社交與腦力活動） -->
+  <ellipse cx="206" cy="320" rx="178" ry="11" fill="#e3ebe5"/>
+  <!-- 樹 -->
+  <rect x="50" y="170" width="14" height="140" rx="5" fill="#a98a5c"/>
+  <circle cx="57" cy="150" r="44" fill="#7fb595"/>
+  <circle cx="34" cy="176" r="26" fill="#2e7d51"/>
+  <circle cx="84" cy="172" r="24" fill="#2e7d51"/>
+  <!-- 長椅 -->
+  <rect x="96" y="178" width="250" height="12" rx="5" fill="#d9b77a"/>
+  <rect x="96" y="198" width="250" height="12" rx="5" fill="#d9b77a"/>
+  <rect x="90" y="236" width="262" height="14" rx="5" fill="#c9a46a"/>
+  <rect x="104" y="250" width="10" height="62" rx="3" fill="#8f7550"/>
+  <rect x="328" y="250" width="10" height="62" rx="3" fill="#8f7550"/>
+  <!-- 長者（左） -->
+  <path d="M150 244h58v18h-58z" fill="#5d6f7a"/>
+  <rect x="150" y="248" width="20" height="62" rx="8" fill="#5d6f7a"/>
+  <rect x="188" y="248" width="20" height="62" rx="8" fill="#4f616b"/>
+  <ellipse cx="158" cy="312" rx="15" ry="6" fill="#1f262b"/>
+  <ellipse cx="196" cy="312" rx="15" ry="6" fill="#1f262b"/>
+  <path d="M138 172Q140 146 162 142H190Q212 146 214 172L212 250H140Z" fill="#17603f"/>
+  <rect x="168" y="124" width="16" height="20" rx="6" fill="#e9b892"/>
+  <circle cx="176" cy="106" r="24" fill="#f1c7a5"/>
+  <path d="M152 108Q150 78 178 78Q202 80 200 104Q192 90 174 92Q160 94 152 108Z" fill="#d6dbde"/>
+  <circle cx="156" cy="84" r="11" fill="#d6dbde"/>
+  <circle cx="168" cy="108" r="6" fill="none" stroke="#4a5650" stroke-width="2"/>
+  <circle cx="185" cy="108" r="6" fill="none" stroke="#4a5650" stroke-width="2"/>
+  <path d="M174 108h5" stroke="#4a5650" stroke-width="2"/>
+  <path d="M170 119q6 4 12 0" stroke="#b5735a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <path d="M206 170Q224 194 222 214L208 216Q206 198 196 182Z" fill="#14563a"/>
+  <!-- 家人（右） -->
+  <path d="M244 244h58v18h-58z" fill="#34404a"/>
+  <rect x="244" y="248" width="20" height="62" rx="8" fill="#34404a"/>
+  <rect x="282" y="248" width="20" height="62" rx="8" fill="#2b353d"/>
+  <ellipse cx="252" cy="312" rx="15" ry="6" fill="#1f262b"/>
+  <ellipse cx="290" cy="312" rx="15" ry="6" fill="#1f262b"/>
+  <path d="M238 170Q240 144 262 140H292Q314 144 316 170L306 250H244Z" fill="#e9dcbc"/>
+  <rect x="270" y="122" width="16" height="20" rx="6" fill="#e9b892"/>
+  <path d="M252 106Q250 72 278 72Q306 72 304 106L300 124H256Z" fill="#2c2f3a"/>
+  <circle cx="278" cy="104" r="23" fill="#f1c7a5"/>
+  <path d="M255 102Q256 78 278 78Q300 78 301 102Q290 88 272 90Q260 92 255 102Z" fill="#2c2f3a"/>
+  <circle cx="270" cy="107" r="2.3" fill="#2c2f3a"/>
+  <circle cx="286" cy="107" r="2.3" fill="#2c2f3a"/>
+  <path d="M272 116q6 4 12 0" stroke="#b5735a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <path d="M244 170Q228 194 232 214L246 216Q246 198 256 182Z" fill="#d8c8a2"/>
+  <!-- 一起看的書 -->
+  <path d="M227 192L196 186V220L227 228Z" fill="#fff" stroke="#cfe2d6" stroke-width="2"/>
+  <path d="M227 192L258 186V220L227 228Z" fill="#fff" stroke="#cfe2d6" stroke-width="2"/>
+  <path d="M202 196l18 4M202 204l18 4M234 200l18-4M234 208l18-4" stroke="#b9d8c4" stroke-width="2" stroke-linecap="round"/>
+  <path d="M227 228L194 220v6l33 8 33-8v-6z" fill="#17603f"/>
+  <circle cx="214" cy="218" r="8" fill="#f1c7a5"/>
+  <circle cx="240" cy="218" r="8" fill="#f1c7a5"/>
+  <!-- 對話泡泡（無文字） -->
+  <path d="M318 62h52a10 10 0 0 1 10 10v22a10 10 0 0 1-10 10h-34l-12 10v-10h-6a10 10 0 0 1-10-10V72a10 10 0 0 1 10-10z" fill="#fff" stroke="#cfe2d6" stroke-width="2.5"/>
+  <circle cx="332" cy="83" r="3.5" fill="#7fb595"/>
+  <circle cx="344" cy="83" r="3.5" fill="#7fb595"/>
+  <circle cx="356" cy="83" r="3.5" fill="#7fb595"/>
+</svg>
