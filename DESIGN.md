@@ -285,7 +285,7 @@ intro 內可用 `**詞**` 標成綠底線強調（`icEmphasis`）。右欄是 §
 | `knowledge` 知識／判定 | `knowledge_cards` | Hero 35%（標題＋人數圖示 hook，插圖疊在大薄荷圓上並出血右上）→ 判定區 35%（**一塊**白色面板內 2＋3 不對稱格，項目只用圖示圈＋字級分組，不是 5 個框）→ 下段 25%（左：暖米底出血到左緣的 Primary Stat＋Secondary／右：行動列） | 與標題並排、部分重疊，約 400px |
 | `data` 數據／趨勢 | `primary_stat`（＋`chart`） | Hero（只有標題）→ 暖米色整條出血帶：左＝超大數字（164px，「約／近」與單位縮成 .34em，上方 kicker 標年份族群）、右＝小型圖表（`bar` 趨勢直條：主角那筆深綠、其餘淡灰綠，推估值標「推估」；`hbar` 比較橫條：白色軌道）→ 次要數字列（3 欄、無框、藍灰 42px，`secondary_note` 標統計期間）→ 4 欄行動列 | 小（230px），讓數字當主角 |
 | `action` 健康行動 | `action_cards` | 插圖 30–40% → 3–5 個步驟 → 注意事項 | 大 |
-| `comparison` 比較 | `comparison{a,b,same,key_diff,how_to_choose}` | 左右雙欄 A ↔ B，中線放最重要差異 | 左右各一（v5.3 先有骨架，待擴充） |
+| `comparison` 比較 | `comparison{a,b,same,key_diff,how_to_choose}` | 左右雙欄 A ↔ B，中線放最重要差異（VS 圓章只套 `.ig-cmp-mid > span`，key_diff 內的強調字不可變圓章）；兩欄要點 25px、在欄內垂直置中、間距 22px，要點少時不留大片空白 | 左右各一（v5.3 先有骨架，待擴充） |
 
 **資訊優先序**：`communication_priority{primary_message, primary_visual, secondary_message, action_priority}`。renderer 依此決定大小：`primary_message`＝Hero 第二層（hook）、`primary_visual`＝Primary Stat、其餘縮為 secondary／metadata。年份、樣本、但書放 note／source（metadata），不放大。
 
@@ -449,3 +449,7 @@ v4 以「作品」串起四步：①議題洞察 → ②產出草稿 → ③預�
 
 - 灰字對比：說明文字最淺用 `--text2`；`--text3` 只留給時間、來源這類 metadata。
 - 數字一律品牌綠（不再用藍色）；藍色只留給步驟 1 的模組 eyebrow。
+
+### 示範模式：超出主題範圍提示（v6）
+- 搜尋對不到示範主題時，不產生通用內容，改顯示 `.oos-card`：琥珀色框（`--amber` 邊框、`--amber-bg` 底、標題 `--amber-dark`），12px 圓角、18/20px 內距。
+- 建議主題用既有 `.quick-topic` 按鈕；有相近主題顯示「你是不是要找」，否則顯示本週關注主題。
