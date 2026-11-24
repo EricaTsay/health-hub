@@ -1820,7 +1820,7 @@ body{background:var(--bg);display:block;height:auto;min-height:100vh;overflow:au
                     <i class="ti ti-paperclip"></i>附加檔案（圖片／PDF）
                     <input type="file" id="review-file" accept="image/png,image/jpeg,image/webp,image/gif,application/pdf" multiple hidden onchange="addReviewFiles(this.files); this.value='';">
                   </label>
-                  <span class="attach-hint">圖卡、商品DM 可上傳完稿圖片；文章、新聞稿可上傳 PDF。單檔上限 15MB，需 API Key。</span>
+                  <span class="attach-hint">圖卡、商品DM 可上傳完稿圖片；文章、新聞稿可上傳 PDF。單檔上限 15MB。示範模式：PDF 讀文字、圖片依檔名對應示範圖卡；逐字分析需 API Key。</span>
                   <div id="review-file-list" class="attach-list"></div>
                 </div>
                 <button class="primary" onclick="runReview()" style="margin-bottom:1.25rem"><i class="ti ti-shield-check"></i>執行 AI 預審</button>
@@ -6796,6 +6796,62 @@ function sendToReview(){
 }
 
 /* ── 審閱 ── */
+
+/* 示範模式的附件預審：PDF 讀文字；圖片依檔名對應示範主題的圖卡文字（不做影像辨識） */
+let _pdfjsLoading = null;
+function loadPdfJs(){
+  if(window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  return _pdfjsLoading = _pdfjsLoading || new Promise((res, rej) => {
+    const el = document.createElement('script');
+    el.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    el.onload = () => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; res(window.pdfjsLib); };
+    el.onerror = () => rej(new Error('PDF 讀取元件載入失敗'));
+    document.head.appendChild(el);
+  });
+}
+async function pdfToText(base64){
+  const lib = await loadPdfJs();
+  const bin = atob(base64), buf = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) buf[i] = bin.charCodeAt(i);
+  const pdf = await lib.getDocument({data: buf}).promise; let out = '';
+  for(let p=1; p<=Math.min(pdf.numPages, 30); p++){
+    const tc = await (await pdf.getPage(p)).getTextContent();
+    out += tc.items.map(it => it.str).join('') + '\n';
+  }
+  return out.trim();
+}
+async function demoAttachmentText(atts){
+  const today = new Date(), ds = `${today.getFullYear()}/${String(today.getMonth()+1).padStart(2,'0')}/${String(today.getDate()).padStart(2,'0')}`;
+  const pdfs = atts.filter(a => a.kind === 'pdf'), imgs = atts.filter(a => a.kind === 'image');
+  let text = '', notes = [];
+  for(const a of pdfs){
+    try{ const t = await pdfToText(a.data); if(t){ text += t + '\n'; notes.push(`已讀取「${a.name}」的文字`); } }catch(e){ notes.push(`「${a.name}」讀取失敗`); }
+  }
+  if(text){
+    // PDF 的主題：先看檔名，再看內文最常出現的示範主題名稱
+    let topic = null;
+    for(const a of pdfs){ const t = await ensureDemoTopic(a.name.replace(/\.[^.]+$/, '')); if(DEMO_V6_LOADED.has(t)){ topic = t; break; } }
+    if(!topic){
+      const names = (window.DEMO_TOPIC_INDEX||[]).map(t => t.name);
+      let best = null, bc = 0; names.forEach(n => { const c = text.split(n).length - 1; if(c > bc){ bc = c; best = n; } });
+      if(best){ const t = await ensureDemoTopic(best); if(DEMO_V6_LOADED.has(t)) topic = t; }
+    }
+    return {text, topic, docType: (reviewDocType === '新聞稿' ? '新聞稿' : '健康文章'), note: '示範模式：' + notes.join('、') + '，以文字內容比對預審示範；版面、字級與圖片未分析。'};
+  }
+  for(const a of imgs){
+    const base = a.name.replace(/\.[^.]+$/, '').replace(/[_\-]?\d{6,}.*$/, '').trim();
+    let topic = await ensureDemoTopic(base);
+    if(!DEMO_INFOCARD_OVERRIDES[topic]){   // 本平台匯出的圖卡檔名＝主標題：比對已載入主題的圖卡主標
+      topic = Object.keys(DEMO_INFOCARD_OVERRIDES).find(k => { const h = (DEMO_INFOCARD_OVERRIDES[k]||{}).headline_main||''; return h && (base.includes(h) || h.includes(base)); });
+    }
+    if(topic && DEMO_INFOCARD_OVERRIDES[topic]){
+      const card = fillTpl(JSON.parse(JSON.stringify(DEMO_INFOCARD_OVERRIDES[topic])), topic, ds);
+      return {text: toPlainText(card), docType: '健康圖卡', topic, note: `示範模式：依檔名「${a.name}」對應到「${topic}」的示範圖卡文字進行預審，未辨識圖片實際內容。`};
+    }
+  }
+  return {text: ''};
+}
+
 async function runReview(){
   if(!API_KEY && !DEMO_MODE){ showModal(); return; }
   const content = document.getElementById('review-input').value.trim();
@@ -6814,12 +6870,25 @@ async function runReview(){
 
   if(DEMO_MODE){
     await demoDelay();
-    if(atts.length){
-      result.innerHTML = demoGuideCard('附件預審需要 API Key',
-        '示範模式尚未建立圖片／PDF 的預審範例。輸入 API Key 後，AI 會以附件實際版面為主要審閱對象，並檢查資料來源標示、字級對比與圖文一致性。');
-      return;
+    let reviewText = content, attNote = '', attTopic = null;
+    if(atts.length && !content){
+      const r = await demoAttachmentText(atts);
+      if(!r.text){
+        result.innerHTML = demoGuideCard('示範模式讀不到這個附件的內容',
+          `示範模式不做影像辨識，附件是用以下方式對應示範內容：<br/><br/>
+           ・<b>PDF</b>：讀出 PDF 裡的文字，再比對示範主題（掃描成圖片的 PDF 讀不到文字）<br/>
+           ・<b>圖片</b>：依<b>檔名</b>對應示範主題的圖卡，例如本平台匯出的圖卡 PNG，或檔名含主題名稱（如「乳癌.png」）<br/><br/>
+           也可以直接把文字貼到上方輸入框。要逐字分析圖片或任意 PDF，請於右上角輸入 Anthropic API Key 後再執行。`);
+        return;
+      }
+      reviewText = r.text; attNote = r.note; attTopic = r.topic || null;
+      if(r.docType) setReviewDocTypeByValue(r.docType);
+      lastReviewCtx.content = reviewText; lastReviewCtx.docType = reviewDocType;   // 送審原文欄顯示讀出／對應到的文字，標示才對得上
+    }else if(atts.length){
+      attNote = '示範模式以輸入框文字為準，附件未納入分析。';
     }
-    const demo = pickDemoReview(content, reviewDocType, currentWork && currentWork.topic);
+    const demo = pickDemoReview(reviewText, reviewDocType, (atts.length && !content) ? attTopic : (currentWork && currentWork.topic));
+    if(demo && attNote) demo.limitations = attNote + ' ' + (demo.limitations||'');
     if(demo){
       renderReviewResult(demo, true);
     }else{
